@@ -113,10 +113,25 @@ db = MetricsDatabase()
 @app.get("/metrics")
 def get_metrics():
     metrics = db.get_all_metrics()
-    return {"count": len(metrics), "data": metrics}
+    formated_metrics = [
+        {
+            "id":m[0], 
+            "metric_name":m[1], 
+            "description":m[2],
+            "unit":m[3],
+            "attributes":m[4],
+            "startTimeUnixNano": m[5],
+            "timeUnixNano": m[6],
+            "value": m[7],
+            "created_at": m[8]
+        }
+        for m in metrics
+    ]
+    return {"count": len(metrics), "data": formated_metrics}
 
 @app.post("/metrics")
 def post_metrics(otel_data: dict):
+    print(f"Inserting data: {otel_data}")
     result = db.insert_opentelemetry_data(otel_data)
     if result > 0:
         return {"status": "success", "inserted": result}
