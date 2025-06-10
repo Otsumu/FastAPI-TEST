@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メトリクスグラフ</title>
+    <link rel="stylesheet" href="css/style.css">
+</head> 
+<body>
+    <div class="container">
+        <h1>メトリクスグラフ</h1>
+
+        <div class="chart-container">
+            <div class="chart-title">CPU負担平均</div>
+            <canvas id="cpuLoadChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">CPU時間</div>
+            <canvas id="cpuTimeChart"></canvas>
+        </div>
+
+        <div class="buttons">
+            <button id="refreshButton">更新</button>
+            <button id="downloadButton">ダウンロード</button>
+        </div>
+    </div>
+
+    <!-- Chart.jsの読み込み -->
+    <script src="./node_modules/chart.js/dist/chart.umd.js"></script>
+    <script>
+        //APIからデータ取得
+        async function loadMetricsData() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/metrics');
+                const metricsData = await response.json();
+                return metricsData;
+            } catch (error) {
+                console.error('JSONファイルの読み込みに失敗しました:', error);
+                return null;
+            }
+        }
+        //データ処理
+        function processMetricsData(data) {
+            //cpuLoadは時間順のデータ、{}は順序の概念がないので[]を使用！
+            const processed = { cpuLoad:[], cputime: {} }
+
+            data.data.forEach(item => {
+                const time = new Date(item.ccreated_at).toLacalTimeString('ja-JP');
+            //ここから続き！
+
+        }
+
+        loadMetricsData().then(data => {
+            if(data) {
+                const processedData = processMetricsData(data);
+                createCpuLoadChart(processedData);
+                createCpuTimeChart(processedData);
+                console.log('取得したデータ：', data);
+            }
+        });
+
+    </script>                    
+</body>
+</html>
