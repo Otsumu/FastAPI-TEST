@@ -11,7 +11,7 @@ class MetricsDatabase:
     def __init__(self, db_path:str="metrics.db"):
         self.db_path = db_path
         self.init_database() #データベースの初期設定
-    
+
     def init_database(self):
         conn = sqlite3.connect('metrics.db')
         cursor = conn.cursor()
@@ -22,10 +22,10 @@ class MetricsDatabase:
             metric_name TEXT NOT NULL,
             description TEXT,
             unit TEXT,
-            attributes TEXT,  
+            attributes TEXT,
             startTimeUnixNano TEXT,
-            timeUnixNano TEXT, 
-            value REAL,     
+            timeUnixNano TEXT,
+            value REAL,
             created_at TEXT DEFAULT (datetime('now', '+9 hours'))
             )
         ''')

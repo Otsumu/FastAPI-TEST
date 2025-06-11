@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>メトリクスグラフ</title>
     <link rel="stylesheet" href="css/style.css">
-</head> 
+</head>
 <body>
     <div class="container">
         <h1>メトリクスグラフ</h1>
@@ -41,16 +41,36 @@
             }
         }
         //データ処理
-        function processMetricsData(data) {
+        function processMetricsData(apiResponse) {
             //cpuLoadは時間順のデータ、{}は順序の概念がないので[]を使用！
-            const processed = { cpuLoad:[], cputime: {} }
+            const processed = { cpuLoad:[], cpuTime: {} }
 
-            data.data.forEach(item => {
-                const time = new Date(item.ccreated_at).toLacalTimeString('ja-JP');
-            //ここから続き！
+            apiResponse.data.forEach(metrics => {
+                const time = new Date(metrics.created_at).toLocaleTimeString('ja-JP');
+                //CPU負荷平均
+                if(metrics.metric_name.includes('load_average')) {
+                    const period = metrics.metric_name.split('.').pop();
+                    if(!processed.cpuLoad.some(p => p.time == time)) {
+                        processed.cpuLoad.push({ time, [period]: metrics.value });
+                    } else {
+                        const existing = processed.cpuLoad.find(p => p.time === time);
+                        existing[period] = metrics.value;
+                    }
+                }
+                //CPU時間
+                if(metrics.metric_name === 'system.cpu.time') {
+                    const attrs = JSON.parse(metrics.attributes);
+                    const cpu = attrs.cpu;
+                    const state = attrs.state;
 
+                    if(!processed.cpuTime[cpu]) processed.cpuTime[cpu] = {};
+                    if(!processed.cpuTime[cpu][state]) processed.cpuTime[cpu][state] = [];
+                    processed.cpuTime[cpu][state].push({ time, value : metrics.value });
+                }
+            });
+            return processed;
         }
-
+        //初期化
         loadMetricsData().then(data => {
             if(data) {
                 const processedData = processMetricsData(data);
@@ -60,6 +80,6 @@
             }
         });
 
-    </script>                    
+    </script>
 </body>
 </html>
