@@ -11,7 +11,7 @@ class MetricsDatabase:
     def __init__(self, db_path:str="metrics.db"):
         self.db_path = db_path
         self.init_database() #データベースの初期設定
-    
+
     def init_database(self):
         conn = sqlite3.connect('metrics.db')
         cursor = conn.cursor()

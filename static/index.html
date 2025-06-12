@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>メトリクスグラフ</title>
     <link rel="stylesheet" href="css/style.css">
-</head> 
+</head>
 <body>
     <div class="container">
         <h1>各CPUの状態別グラフ</h1>
@@ -40,6 +40,26 @@
                 return null;
             }
         }
+        //データ処理
+        function processMetricsData(data) {
+            //cpuLoadは時間順のデータ、{}は順序の概念がないので[]を使用！
+            const processed = { cpuLoad:[], cputime: {} }
+
+            data.data.forEach(item => {
+                const time = new Date(item.ccreated_at).toLacalTimeString('ja-JP');
+            //ここから続き！
+
+        }
+
+        loadMetricsData().then(data => {
+            if(data) {
+                const processedData = processMetricsData(data);
+                createCpuLoadChart(processedData);
+                createCpuTimeChart(processedData);
+                console.log('取得したデータ：', data);
+            }
+        });
+
     </script>                    
 </body>
 </html>
