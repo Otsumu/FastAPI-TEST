@@ -1,0 +1,3684 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSONL構造ビューア</title>
+    <style>
+        body { font-family: monospace; margin: 20px; }
+        .line-header { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+        .json-content { background: #f8f8f8; padding: 15px; border-left: 3px solid #007acc; }
+        pre { white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>📄 JSONLファイル構造ビューア</h1>
+<p>総行数: 14</p><div class="line-header">--- 行 1 ---</div><div class="json-content"><pre>{
+  "resourceMetrics": [
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/memoryscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.memory.usage",
+              "description": "Bytes of memory in use.",
+              "unit": "By",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841483256866",
+                    "asInt": "2998005760"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841483256866",
+                    "asInt": "5723324416"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "buffered"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841483256866",
+                    "asInt": "251019264"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "cached"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841483256866",
+                    "asInt": "3528773632"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "slab_reclaimable"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841483256866",
+                    "asInt": "452648960"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "slab_unreclaimable"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841483256866",
+                    "asInt": "200249344"
+                  }
+                ],
+                "aggregationTemporality": 2
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    },
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/networkscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.network.dropped",
+              "description": "The number of packets dropped.",
+              "unit": "{packets}",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "0"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            },
+            {
+              "name": "system.network.errors",
+              "description": "The number of errors encountered.",
+              "unit": "{errors}",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "0"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            },
+            {
+              "name": "system.network.io",
+              "description": "The number of bytes transmitted and received.",
+              "unit": "By",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "826"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "826"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "3168"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "6756"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            },
+            {
+              "name": "system.network.packets",
+              "description": "The number of packets transferred.",
+              "unit": "{packets}",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "13"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "13"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "30"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841485594359",
+                    "asInt": "43"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    },
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/filesystemscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.filesystem.usage",
+              "description": "Filesystem bytes used.",
+              "unit": "By",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/data"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "56724606976"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/data"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "12850237440"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/data"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/resolv.conf"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "56724606976"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/resolv.conf"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "12850237440"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/resolv.conf"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hostname"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "56724606976"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hostname"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "12850237440"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hostname"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hosts"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "56724606976"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hosts"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "12850237440"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hosts"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/var/log/journal"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "56724606976"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/var/log/journal"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "12850237440"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/var/log/journal"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/otelcol-contrib/config.yaml"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "56724606976"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/otelcol-contrib/config.yaml"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "12850237440"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/otelcol-contrib/config.yaml"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710841486047849",
+                    "asInt": "3532136448"
+                  }
+                ],
+                "aggregationTemporality": 2
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    }
+  ]
+}</pre></div><div class="line-header">--- 行 2 ---</div><div class="json-content"><pre>{
+  "resourceMetrics": [
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/memoryscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.memory.usage",
+              "description": "Bytes of memory in use.",
+              "unit": "By",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474750901",
+                    "asInt": "3041722368"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474750901",
+                    "asInt": "5629669376"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "buffered"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474750901",
+                    "asInt": "251301888"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "cached"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474750901",
+                    "asInt": "3578429440"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "slab_reclaimable"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474750901",
+                    "asInt": "453500928"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "slab_unreclaimable"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474750901",
+                    "asInt": "200069120"
+                  }
+                ],
+                "aggregationTemporality": 2
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    },
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/cpuscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.cpu.utilization",
+              "description": "Difference in system.cpu.time since the last measurement per logical CPU, divided by the elapsed time (value in interval [0,1]).",
+              "unit": "1",
+              "gauge": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "cpu",
+                        "value": {
+                          "stringValue": "cpu0"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "idle"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474946479",
+                    "asDouble": 0.7785862785865274
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "cpu",
+                        "value": {
+                          "stringValue": "cpu1"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "idle"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474946479",
+                    "asDouble": 0.38485477178416505
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "cpu",
+                        "value": {
+                          "stringValue": "cpu2"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "idle"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474946479",
+                    "asDouble": 0.6266804550157605
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "cpu",
+                        "value": {
+                          "stringValue": "cpu3"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "idle"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851474946479",
+                    "asDouble": 0.6292481977344111
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    },
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/networkscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.network.dropped",
+              "description": "The number of packets dropped.",
+              "unit": "{packets}",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "0"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            },
+            {
+              "name": "system.network.errors",
+              "description": "The number of errors encountered.",
+              "unit": "{errors}",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "0"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            },
+            {
+              "name": "system.network.io",
+              "description": "The number of bytes transmitted and received.",
+              "unit": "By",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "2397"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "2397"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "17538"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "30582"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            },
+            {
+              "name": "system.network.packets",
+              "description": "The number of packets transferred.",
+              "unit": "{packets}",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "34"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "34"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "92"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475101771",
+                    "asInt": "112"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    },
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/filesystemscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.filesystem.usage",
+              "description": "Filesystem bytes used.",
+              "unit": "By",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/data"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "56727904256"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/data"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "12846940160"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/data"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/resolv.conf"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "56727904256"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/resolv.conf"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "12846940160"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/resolv.conf"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hostname"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "56727904256"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hostname"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "12846940160"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hostname"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hosts"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "56727904256"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hosts"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "12846940160"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hosts"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/var/log/journal"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "56727904256"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/var/log/journal"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "12846940160"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/var/log/journal"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/otelcol-contrib/config.yaml"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "56727904256"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/otelcol-contrib/config.yaml"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "12846940160"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/otelcol-contrib/config.yaml"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710851475286859",
+                    "asInt": "3532136448"
+                  }
+                ],
+                "aggregationTemporality": 2
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    }
+  ]
+}</pre></div><div class="line-header">--- 行 3 ---</div><div class="json-content"><pre>{
+  "resourceMetrics": [
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/memoryscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.memory.usage",
+              "description": "Bytes of memory in use.",
+              "unit": "By",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474741892",
+                    "asInt": "3095310336"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474741892",
+                    "asInt": "5504364544"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "buffered"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474741892",
+                    "asInt": "251346944"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "cached"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474741892",
+                    "asInt": "3650101248"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "slab_reclaimable"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474741892",
+                    "asInt": "454787072"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "slab_unreclaimable"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474741892",
+                    "asInt": "200273920"
+                  }
+                ],
+                "aggregationTemporality": 2
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    },
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/cpuscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.cpu.utilization",
+              "description": "Difference in system.cpu.time since the last measurement per logical CPU, divided by the elapsed time (value in interval [0,1]).",
+              "unit": "1",
+              "gauge": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "cpu",
+                        "value": {
+                          "stringValue": "cpu0"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "idle"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474922761",
+                    "asDouble": 0.8650051921077079
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "cpu",
+                        "value": {
+                          "stringValue": "cpu1"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "idle"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474922761",
+                    "asDouble": 0.8998957247136768
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "cpu",
+                        "value": {
+                          "stringValue": "cpu2"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "idle"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474922761",
+                    "asDouble": 0.8770661157022888
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "cpu",
+                        "value": {
+                          "stringValue": "cpu3"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "idle"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861474922761",
+                    "asDouble": 0.8125000000000474
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    },
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/networkscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.network.dropped",
+              "description": "The number of packets dropped.",
+              "unit": "{packets}",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "0"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            },
+            {
+              "name": "system.network.errors",
+              "description": "The number of errors encountered.",
+              "unit": "{errors}",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "0"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "0"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            },
+            {
+              "name": "system.network.io",
+              "description": "The number of bytes transmitted and received.",
+              "unit": "By",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "7371"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "7371"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "36522"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "53481"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            },
+            {
+              "name": "system.network.packets",
+              "description": "The number of packets transferred.",
+              "unit": "{packets}",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "71"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "lo"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "71"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "transmit"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "163"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "eth0"
+                        }
+                      },
+                      {
+                        "key": "direction",
+                        "value": {
+                          "stringValue": "receive"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475153127",
+                    "asInt": "164"
+                  }
+                ],
+                "aggregationTemporality": 2,
+                "isMonotonic": true
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    },
+    {
+      "resource": {},
+      "scopeMetrics": [
+        {
+          "scope": {
+            "name": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/filesystemscraper",
+            "version": "0.127.0"
+          },
+          "metrics": [
+            {
+              "name": "system.filesystem.usage",
+              "description": "Filesystem bytes used.",
+              "unit": "By",
+              "sum": {
+                "dataPoints": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/data"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "56732590080"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/data"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "12842254336"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/data"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/resolv.conf"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "56732590080"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/resolv.conf"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "12842254336"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/resolv.conf"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hostname"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "56732590080"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hostname"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "12842254336"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hostname"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hosts"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "56732590080"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hosts"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "12842254336"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/hosts"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/var/log/journal"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "56732590080"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/var/log/journal"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "12842254336"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/var/log/journal"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "3532136448"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/otelcol-contrib/config.yaml"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "used"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "56732590080"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/otelcol-contrib/config.yaml"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "free"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "12842254336"
+                  },
+                  {
+                    "attributes": [
+                      {
+                        "key": "device",
+                        "value": {
+                          "stringValue": "/dev/sda5"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "stringValue": "rw"
+                        }
+                      },
+                      {
+                        "key": "mountpoint",
+                        "value": {
+                          "stringValue": "/etc/otelcol-contrib/config.yaml"
+                        }
+                      },
+                      {
+                        "key": "type",
+                        "value": {
+                          "stringValue": "ext4"
+                        }
+                      },
+                      {
+                        "key": "state",
+                        "value": {
+                          "stringValue": "reserved"
+                        }
+                      }
+                    ],
+                    "startTimeUnixNano": "1749691437000000000",
+                    "timeUnixNano": "1749710861475266259",
+                    "asInt": "3532136448"
+                  }
+                ],
+                "aggregationTemporality": 2
+              }
+            }
+          ]
+        }
+      ],
+      "schemaUrl": "https://opentelemetry.io/schemas/1.9.0"
+    }
+  ]
+}</pre></div></body></html>

@@ -3,14 +3,13 @@ import sqlite3
 import json
 import os
 from datetime import datetime
-from typing import List, Dict, Any
 
 app = FastAPI()
 
 class MetricsDatabase:
     def __init__(self, db_path:str="metrics.db"):
         self.db_path = db_path
-        self.init_database() #データベースの初期設定
+        self.init_database()
 
     def init_database(self):
         conn = sqlite3.connect('metrics.db')
@@ -27,7 +26,7 @@ class MetricsDatabase:
         conn.close()
         print("データベースに接続できました")
 
-    def insert_cpu_utilization(self, json_data: Dict[str, Any]):
+    def insert_cpu_utilization(self, json_data):
         conn = sqlite3.connect('metrics.db')
         cursor = conn.cursor()
         inserted_count = 0
