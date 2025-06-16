@@ -14,7 +14,7 @@ def create_html_viewer():
     </style>
 </head>
 <body>
-    <h1>📄 JSONLファイル構造ビューア</h1>
+    <h1>JSONLファイル構造ビューア</h1>
 """
     
     with open('metric.jsonl','r') as f:
@@ -38,7 +38,7 @@ def create_html_viewer():
     with open('jsonl_viewer.html', 'w', encoding='utf-8') as f:
         f.write(html_content)
     
-    print("✅ HTMLファイルが作成されました: jsonl_viewer.html")
+    print("HTMLファイルが作成されました: jsonl_viewer.html")
 
 if __name__ == "__main__":
     create_html_viewer()
