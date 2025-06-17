@@ -11,14 +11,10 @@
         <h1>各CPUの状態別グラフ</h1>
 
         <div class="chart-container">
-            <div class="chart-title">〇〇〇〇〇</div>
+            <div class="chart-title">CPU使用率推移</div>
             <canvas id="cpuLoadChart"></canvas>
         </div>
 
-        <div class="chart-container">
-            <div class="chart-title">〇〇〇〇〇</div>
-            <canvas id="cpuTimeChart"></canvas>
-        </div>
 
         <div class="buttons">
             <button id="refreshButton">更新</button>
@@ -28,19 +24,7 @@
 
     <!-- Chart.jsの読み込み -->
     <script src="./node_modules/chart.js/dist/chart.umd.js"></script>
-    <script>
-        //APIからデータ取得
-        async function loadMetricsData() {
-            try {
-                const response = await fetch('http://127.0.0.1:8000/metrics');
-                const metricsData = await response.json();
-                return metricsData;
-            } catch (error) {
-                console.error('JSONファイルの読み込みに失敗しました:', error);
-                return null;
-            }
-        }
-
-    </script>                    
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="javascript.js"></script>              
 </body>
 </html>

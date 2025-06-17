@@ -1,0 +1,70 @@
+//APIからデータを取得
+async function loadMetricsData() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/metrics');
+        const data  = await response.json();
+        return data;
+    } catch (error) {
+        console.error('データ取得エラー:', error);
+        return null;            
+    }
+}
+
+// CPU使用率グラフ作成
+function createCpuUsageChart(data) {
+    //2次元描画モードのグラフを作成
+    const context = document.getElementById('cpuLoadChart').getContext('2d');
+    
+    // CPU別にデータを作成する
+    const cpuData = {};
+    data.data.forEach(metric => {
+        if (!cpuData[metric.cpu_name]) {
+            cpuData[metric.cpu_name] = [];
+        }
+        cpuData[metric.cpu_name].push({
+            x: metric.timestamp,
+            y: metric.utilization
+        });
+    });
+    
+    // 系列データ作成
+    const datasets = Object.keys(cpuData).map((cpuName, index) => {
+        let color;
+            if      (index === 0) color = 'red';      
+            else if (index === 1) color = 'green'; 
+            else if (index === 2) color = 'blue'; 
+            else if (index === 3) color = 'yellow'; 
+        return {     
+        label: cpuName,
+        data: cpuData[cpuName],
+        borderColor:  color,
+        //tension: 0.4,
+        };
+    });
+    
+    new Chart(context, {
+        type: 'line',
+        data: { datasets },
+        options: {
+            responsive: true,
+            scales: {
+                x: { 
+                    type: 'time',
+                    title: { display: true, text: '時間' }
+                },
+                y: { 
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: 'CPU使用率(%)' }
+                }
+            }
+        }
+    });
+}
+
+// 関数の呼び出し
+loadMetricsData().then(data => {
+    if (data) {
+        createCpuUsageChart(data);
+    }
+});
