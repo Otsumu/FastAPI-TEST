@@ -1,10 +1,13 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles 
 import sqlite3
 import json
 import os
 from datetime import datetime
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 class MetricsDatabase:
     def __init__(self, db_path:str="metrics.db"):
@@ -25,6 +28,7 @@ class MetricsDatabase:
         conn.commit()
         conn.close()
         print("データベースに接続できました")
+        
 
     def insert_cpu_utilization(self, json_data):
         conn = sqlite3.connect('metrics.db')
@@ -40,12 +44,12 @@ class MetricsDatabase:
             for metric in all_metrics:
                 if metric.get('name') == 'system.cpu.utilization':
                     data_points = metric.get('gauge', {}).get('dataPoints', [])
-
+                    #ループの都度初期化
                     for data_point in data_points:
                         cpu_name = ''
                         idle_rate = 0
                         timestamp = ''
-
+                        
                         attributes = data_point.get('attributes', [])
                         for attr in attributes:
                             if attr.get('key') == 'cpu':
@@ -55,11 +59,15 @@ class MetricsDatabase:
                                 if state == 'idle':
                                     idle_rate = data_point.get('asDouble', 0)
 
-                        # タイムスタンプを変換
+                        # タイムスタンプの取得
+                        # timeUnixNanoが存在する場合、ナノ秒単位のタイムスタンプを取得
+                        # もしtimeUnixNanoが存在しない場合は、0をデフォルト値として使用
+                        # timeUnixNanoはナノ秒単位なので、秒単位に変換する必要がある
                         timestamp_nano = data_point.get('timeUnixNano', 0)
                         if timestamp_nano:
+                            #ナノ秒（10⁻⁹秒）を秒単位に変換するため、10億で割る
                             timestamp = datetime.fromtimestamp(int(timestamp_nano) / 1000000000).isoformat()
-                        
+                        # CPU使用率の計算
                         utilization = (1 - idle_rate) * 100
 
                         if cpu_name and timestamp:

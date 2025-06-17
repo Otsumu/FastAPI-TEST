@@ -34,11 +34,12 @@ def create_html_viewer():
     
     html_content += "</body></html>"
     
-    # ←← ここが重要！HTMLファイルに保存
+    # ← 重要！HTMLファイルに保存
     with open('jsonl_viewer.html', 'w', encoding='utf-8') as f:
         f.write(html_content)
     
     print("HTMLファイルが作成されました: jsonl_viewer.html")
 
+#テスト用の関数を定義
 if __name__ == "__main__":
     create_html_viewer()

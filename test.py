@@ -17,6 +17,7 @@ with open('metric.jsonl', 'r') as f:
     lines = f.readlines()
 
 total_inserted = 0
+
 for line_num, line in enumerate(lines, 1):
     if line.strip():
         try:
