@@ -27,21 +27,19 @@ function createCpuUsageChart(data) {
         });
     });
     
-    // 系列データ作成
+    // chart.jsのデータを作成
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
-        let color;
-            if      (index === 0) color = 'red';      
-            else if (index === 1) color = 'green'; 
-            else if (index === 2) color = 'blue'; 
-            else if (index === 3) color = 'yellow'; 
+        const colors = ['red','green','blue','yellow'];
+        
         return {     
         label: cpuName,
         data: cpuData[cpuName],
-        borderColor:  color,
-        //tension: 0.4,
+        borderColor:  colors[index],
+        tension: 0.4,
+        fill: false //塗りつぶしなし
         };
     });
-    
+    //chart.jsに新しいグラフオブジェクトを作る
     new Chart(context, {
         type: 'line',
         data: { datasets },
