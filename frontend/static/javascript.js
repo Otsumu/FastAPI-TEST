@@ -3,10 +3,6 @@ async function loadMetricsData() {
     try {
         const response = await fetch('http://127.0.0.1:8000/metrics');
         const data  = await response.json();
-
-        console.log('取得したデータ:', data);
-        console.log('データの件数:', data.data ? data.data.length : 'dataプロパティなし');
-        
         return data;
     } catch (error) {
         console.error('データ取得エラー:', error);
