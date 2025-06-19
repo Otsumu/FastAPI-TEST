@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware 
 import sqlite3
 from datetime import datetime
 
@@ -8,15 +7,6 @@ app = FastAPI()
 
 # フロントエンドの静的ファイルを提供するためにFastAPIのStaticFilesを使用
 app.mount("/frontend/static", StaticFiles(directory="../frontend/static"), name="static")
-
-#よくあるCORS設定
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # すべてのオリジンを許可
-    allow_credentials=True, #認証情報（クッキー、認証ヘッダーなど）を含むリクエストを許可
-    allow_methods=["*"],  # すべてのHTTPメソッドを許可,現状はGETとPOSTのみ使用
-    allow_headers=["*"],  # すべてのヘッダーを許可
-)
 
 class MetricsDatabase:
     def __init__(self, db_path: str="../data/metrics.db"):

@@ -1,7 +1,7 @@
 import requests
 import json
 
-server = "http://localhost:8000"
+server = "http://localhost/api"
 
 print("=== fastAPI-TEST テスト ===")
 

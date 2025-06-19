@@ -1,7 +1,7 @@
 //APIからデータを取得
 async function loadMetricsData() {
     try {
-        const response = await fetch('http://127.0.0.1:8000/metrics');
+        const response = await fetch('/api/metrics');
         const data  = await response.json();
         return data;
     } catch (error) {
