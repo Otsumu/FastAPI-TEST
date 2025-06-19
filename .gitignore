@@ -1,0 +1,8 @@
+gitignore
+# 仮想環境
+venv/
+
+# chart.jsライブラリの保存先
+**/node_modules/
+
+_pycache/
