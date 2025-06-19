@@ -19,7 +19,7 @@ def create_html_viewer():
     
     with open('metric.jsonl','r') as f:
         lines = f.readlines()
-    
+    #前の内容を保持しながら追加
     html_content += f"<p>総行数: {len(lines)}</p>"
     
     for i in range(min(3, len(lines))):
@@ -32,6 +32,7 @@ def create_html_viewer():
             except json.JSONDecodeError as e:
                 html_content += f'<div class="json-content">JSON解析エラー: {e}</div>'
     
+    #前の内容を保持しながら追加
     html_content += "</body></html>"
     
     # ← 重要！HTMLファイルに保存
