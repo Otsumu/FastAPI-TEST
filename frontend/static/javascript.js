@@ -66,3 +66,11 @@ loadMetricsData().then(data => {
         createCpuUsageChart(data);
     }
 });
+
+// 関数の呼び出し then()を使用しないコード
+//(async () => {
+//    const data = await loadMetricsData();
+//    if (data) {
+//        createCpuUsageChart(data);
+//    }
+//}) (); 
