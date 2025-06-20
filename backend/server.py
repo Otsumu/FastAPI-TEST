@@ -102,7 +102,7 @@ class MetricsDatabase:
 
 db = MetricsDatabase()
 
-@app.get("/metrics")
+@app.get("/api/metrics")
 def get_metrics():
     metrics = db.get_all_metrics()
     formatted_metrics = [  
@@ -116,7 +116,7 @@ def get_metrics():
     ]
     return {"count": len(metrics), "data": formatted_metrics}
 
-@app.post("/metrics")
+@app.post("/api/metrics")
 def post_metrics(json_data: dict):
     print(f"Inserting data: {json_data}")
     result = db.insert_cpu_utilization(json_data)
