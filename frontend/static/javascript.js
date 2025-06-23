@@ -3,13 +3,6 @@ async function loadMetricsData() {
     try {
         const response = await fetch('/api/metrics');
         const data  = await response.json();
-
-         // ★デバッグ用追加
-        console.log('API Response Status:', response.status);
-        console.log('取得したデータ:', data);
-        console.log('データ件数:', data.data ? data.data.length : 'data.dataがない');
-        console.log('最初のデータ:', data.data?.[0]);
-
         return data;
     } catch (error) {
         console.error('データ取得エラー:', error);
@@ -19,10 +12,6 @@ async function loadMetricsData() {
 
 // CPU使用率グラフ作成
 function createCpuUsageChart(data) {
-    // ★デバッグ用追加
-    console.log('グラフ作成開始');
-    console.log('Chart.js利用可能:', typeof Chart !== 'undefined');
-    console.log('canvas要素:', document.getElementById('cpuLoadChart'));
     //2次元描画モードのグラフを作成
     const context = document.getElementById('cpuLoadChart').getContext('2d');
     
