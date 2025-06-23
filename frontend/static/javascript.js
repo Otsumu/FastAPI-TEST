@@ -67,7 +67,7 @@ loadMetricsData().then(data => {
     }
 });
 
-// 関数の呼び出し then()を使用しないコード
+// then()を使用しないコード、ページが開かれた時に、APIからデータを取得してグラフを描画する
 //(async () => {
 //    const data = await loadMetricsData();
 //    if (data) {
