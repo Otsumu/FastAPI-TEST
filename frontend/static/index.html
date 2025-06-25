@@ -9,17 +9,26 @@
 <body>
     <div class="container">
         <h1>各CPUの状態別グラフ</h1>
+        <!-- 全体グラフ -->
+        <div class = "whole">
+            <div class = "chart-container">
+                <div class = "chart-title">CPU使用率推移</div>
+                <canvas id = "cpuLoadChart"></canvas>
+                </div>
+            </div>
+        </div>
 
-        <div class="chart-container">
-            <div class="chart-title">CPU使用率推移</div>
-            <canvas id="cpuLoadChart"></canvas>
+        <!-- 拡大グラフ -->
+        <div class = "expansion">
+            <div class="chart-title">CPU使用率推移(拡大)</div>
+            <canvas id="cpuLoadChartZoom"></canvas>
         </div>
 
         <!-- この実装は未着手！　-->
-        <div class="buttons">
+        <!--<div class="buttons">
             <button id="refreshButton">更新</button>
             <button id="downloadButton">ダウンロード</button>
-        </div>
+        </div> -->
     </div>
 
     <!-- Chart.js本体の読み込み -->
