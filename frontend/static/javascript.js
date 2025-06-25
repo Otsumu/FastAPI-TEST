@@ -3,6 +3,7 @@ async function loadMetricsData() {
     try {
         const response = await fetch('/api/metrics');
         const data  = await response.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.error('データ取得エラー:', error);
@@ -27,16 +28,22 @@ function createCpuUsageChart(data) {
         });
     });
     
+    const maxUsage = Math.max(...Object.values(cpuData).flat().map(d => d.y));
+    const suggestedMax = Math.ceil(maxUsage / 10) * 10
+
     // chart.jsのデータを作成
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
-        const colors = ['red','green','blue','yellow'];
-        
+        const colors = [ '#06B6D4', '#8B5CF6', '#F97316', '#DC2626'];
+    
         return {     
         label: cpuName,
         data: cpuData[cpuName],
         borderColor:  colors[index],
-        tension: 0.4,
-        fill: false //塗りつぶしなし
+        backgroundColor: colors[index],
+        tension: 0.5,
+        fill: false, 
+        pointRadius: 0,
+        pointHoverRadius: 0
         };
     });
     //chart.jsに新しいグラフオブジェクトを作る
@@ -48,11 +55,24 @@ function createCpuUsageChart(data) {
             scales: {
                 x: { 
                     type: 'time',
-                    title: { display: true, text: '時間' }
+                    title: { display: true, text: '時刻' },
+                    time: {
+                        unit: 'second',
+                        displayFormats: {
+                            second: 'HH:mm:ss'
+                        }
+                    },
+                    ticks: {
+                        maxTicksLimit: 6,
+                        autoSkip: true
+                    }
                 },
                 y: { 
-                    beginAtZero: true,
-                    max: 100,
+                    suggestedMin: 0,
+                    suggestedMax: suggestedMax + 10,
+                    ticks: {
+                        stepSize: 3
+                    },
                     title: { display: true, text: 'CPU使用率(%)' }
                 }
             }

@@ -14,14 +14,14 @@ print(f"結果: {response.json()}")
 print("\n2. POST テスト（データ挿入）")
 
 with open('../data/metric.jsonl', 'r') as f:
-    lines = f.readlines()
+    lines = f.readlines() # 1行ずつJSONとして読み込み
 
 total_inserted = 0
 
 for line_num, line in enumerate(lines, 1):
-    if line.strip():
+    if line.strip(): #空行スキップ
         try:
-            data = json.loads(line.strip())  # 1行ずつJSONとして読み込み
+            data = json.loads(line.strip())  #空白除去
             response = requests.post(f"{server}/metrics", json=data)
             result = response.json()
             print(f"行{line_num}: {result}")
