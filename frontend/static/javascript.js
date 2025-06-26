@@ -3,7 +3,6 @@ async function loadMetricsData() {
     try {
         const response = await fetch('/api/metrics');
         const data  = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.error('データ取得エラー:', error);
@@ -25,7 +24,7 @@ function processCpuData(data) {
     });
 
     //10の倍数に切り上げてグラフの見た目を良くする
-    const maxUsage = Math.max(...Object.values(cpuData).flat().map(d => d.y));
+    const maxUsage = Math.max(...Object.values(cpuData).flat().map(data => data.y));
     const suggestedMax = Math.ceil(maxUsage / 10) * 10;
     
     return { cpuData, suggestedMax };
@@ -87,10 +86,24 @@ function createCpuUsageChart(data) {
     });
 }
 
-// CPU使用率グラフ(拡大)作成
+// CPU使用率グラフ(使用率が20%以下のデータのみ)作成
 function createZoomedChart(data) {
     const zoomContext = document.getElementById('cpuLoadChartZoom').getContext('2d');
-    const { cpuData, suggestedMax } = processCpuData(data);
+    const { cpuData } = processCpuData(data);
+
+    // 20%以下のデータポイントのみ抽出
+    const filteredCpuData = {};
+    // 各CPUのデータをフィルタリング
+    Object.keys(cpuData).forEach(cpuName => {
+        filteredCpuData[cpuName] = cpuData[cpuName].filter(point => point.y <= 20);
+    });
+    
+    // フィルタリング後のデータから最大値を再計算
+    const filteredMaxUsage = Math.max(
+        ...Object.values(filteredCpuData)
+              .flat()
+              .map(data => data.y)
+    );
     
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
         const colors = [ '#06B6D4', '#8B5CF6', '#F97316', '#DC2626'];
@@ -129,11 +142,12 @@ function createZoomedChart(data) {
                 },
                 y: { 
                     min: 0,
-                    max: 24,
+                    max: filteredMaxUsage + 1.25,
+                    suggestedMax: 20, // 20%以下のデータのみを表示する
                     ticks: {
-                        stepSize: 2
+                        stepSize: 1 // より細かい刻み
                     },
-                    title: { display: true, text: 'CPU使用率(%)' }
+                    title: { display: true, text: '20%以下のみのCPU使用率(%) ' }
                 }
             }
         }
