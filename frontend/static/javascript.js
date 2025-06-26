@@ -99,10 +99,7 @@ function createZoomedChart(data) {
     });
     
     // フィルタリング後のデータから最大値を再計算
-    const filteredMaxUsage = Math.max(
-        ...Object.values(filteredCpuData)
-              .flat()
-              .map(data => data.y)
+    const filteredMaxUsage = Math.max(...Object.values(filteredCpuData).flat().map(data => data.y)
     );
     
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
@@ -168,5 +165,6 @@ loadMetricsData().then(data => {
 //    const data = await loadMetricsData();
 //    if (data) {
 //        createCpuUsageChart(data);
+//        createZoomedChart(data);
 //    }
 //}) (); 
