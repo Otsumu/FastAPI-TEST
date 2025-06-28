@@ -91,9 +91,19 @@ class MetricsDatabase:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()    
         try:
-            cursor.execute('SELECT * FROM cpu_metrics')
+            cursor.execute('SELECT timestamp, cpu_name, utilization FROM cpu_metrics ORDER BY timestamp, cpu_name')
             rows = cursor.fetchall()
-            return rows
+
+            series_data = {}
+            for timestamp, cpu_name, utilization in rows:
+                if cpu_name not in series_data:
+                    series_data[cpu_name] = []
+                series_data[cpu_name].append({
+                    "timestamp": timestamp,
+                    "utilization": utilization
+                })
+            return series_data
+        
         except Exception as error:
             print(f"取得エラー: {error}")
             return []
@@ -105,16 +115,7 @@ db = MetricsDatabase()
 @app.get("/api/metrics")
 def get_metrics():
     metrics = db.get_all_metrics()
-    formatted_metrics = [  
-        {
-            "id": m[0], 
-            "timestamp": m[1],  
-            "cpu_name": m[2],
-            "utilization": m[3],
-        }
-        for m in metrics
-    ]
-    return {"count": len(metrics), "data": formatted_metrics}
+    return metrics
 
 @app.post("/api/metrics")
 def post_metrics(json_data: dict):
@@ -124,3 +125,5 @@ def post_metrics(json_data: dict):
         return {"status": "success", "inserted": result}
     else:
         return {"status": "error", "message": "データ挿入に失敗しました"}
+
+          

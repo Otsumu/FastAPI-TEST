@@ -13,16 +13,12 @@ async function loadMetricsData() {
 // 共通のデータ処理関数
 function processCpuData(data) {
     const cpuData = {};
-    data.data.forEach(metric => {
-        if (!cpuData[metric.cpu_name]) {
-            cpuData[metric.cpu_name] = [];
-        }
-        cpuData[metric.cpu_name].push({
-            x: metric.timestamp,
-            y: metric.utilization
-        });
-    });
-
+    Object.keys(data).forEach(cpuName => {
+        cpuData[cpuName] = data[cpuName].map(point => ({
+            x:point.timestamp,
+            y:point.utilization
+        }))
+    })
     //10の倍数に切り上げてグラフの見た目を良くする
     const maxUsage = Math.max(...Object.values(cpuData).flat().map(data => data.y));
     const suggestedMax = Math.ceil(maxUsage / 10) * 10;
@@ -77,7 +73,7 @@ function createCpuUsageChart(data) {
                     suggestedMin: 0,
                     suggestedMax: suggestedMax,
                     ticks: {
-                        stepSize: 6
+                        //stepSize: 6
                     },
                     title: { display: true, text: 'CPU使用率(%)' }
                 }
@@ -142,7 +138,7 @@ function createZoomedChart(data) {
                     max: filteredMaxUsage + 1.25,
                     suggestedMax: 20, // 20%以下のデータのみを表示する
                     ticks: {
-                        stepSize: 1 // より細かい刻み
+                        //stepSize: 1
                     },
                     title: { display: true, text: '20%以下のみのCPU使用率(%) ' }
                 }
