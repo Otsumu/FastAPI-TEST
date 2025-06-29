@@ -25,6 +25,17 @@ function processCpuData(data) {
     
     return { cpuData, suggestedMax };
 }
+//cpuのグラフ色生成
+function generateCpuColor(index) {
+    const baseColors = ['#06B6D4', '#8B5CF6', '#F97316', '#DC2626', '#10B981', '#F59E0B', '#EF4444', '#8B5A2B'];
+
+    if (index < baseColors.length) {
+        return baseColors[index];
+    } else {
+        const hue = (index * 360 / 16) % 360;
+        return  `hsl(${hue}, 70%, 50%) `
+    }
+}
 
 // CPU使用率グラフ(全体)作成
 function createCpuUsageChart(data) {
@@ -35,17 +46,15 @@ function createCpuUsageChart(data) {
 
     // chart.jsのデータを作成
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
-        const colors = [ '#06B6D4', '#8B5CF6', '#F97316', '#DC2626'];
-    
         return {     
-        label: cpuName,
-        data: cpuData[cpuName],
-        borderColor:  colors[index],
-        backgroundColor: colors[index],
-        tension: 0.5,
-        fill: false, 
-        pointRadius: 0,
-        pointHoverRadius: 0
+            label: cpuName,
+            data: cpuData[cpuName],
+            borderColor:  generateCpuColor(index),
+            backgroundColor: generateCpuColor(index),
+            tension: 0.5,
+            fill: false, 
+            pointRadius: 2,
+            pointHoverRadius: 6
         };
     });
     //chart.jsに新しいグラフオブジェクトを作る(全体用)
@@ -99,17 +108,15 @@ function createZoomedChart(data) {
     );
     
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
-        const colors = [ '#06B6D4', '#8B5CF6', '#F97316', '#DC2626'];
-    
         return {     
             label: cpuName,
             data: cpuData[cpuName],
-            borderColor:  colors[index],
-            backgroundColor: colors[index],
+            borderColor:  generateCpuColor(index),
+            backgroundColor: generateCpuColor(index),
             tension: 0.5,
             fill: false, 
-            pointRadius: 0,
-            pointHoverRadius: 0
+            pointRadius: 2,
+            pointHoverRadius: 6
         };
     });
 
@@ -136,9 +143,9 @@ function createZoomedChart(data) {
                 y: { 
                     min: 0,
                     max: filteredMaxUsage + 1.25,
-                    suggestedMax: 20, // 20%以下のデータのみを表示する
+                    suggestedMax: 20,
                     ticks: {
-                        //stepSize: 1
+                        stepSize: 1
                     },
                     title: { display: true, text: '20%以下のみのCPU使用率(%) ' }
                 }
@@ -146,7 +153,6 @@ function createZoomedChart(data) {
         }
     });
 }
-
 
 // 関数の呼び出し
 loadMetricsData().then(data => {
