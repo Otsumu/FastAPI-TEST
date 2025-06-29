@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 import sqlite3
 from datetime import datetime
+from collections import defaultdict 
 
 app = FastAPI()
 
@@ -18,8 +19,8 @@ class MetricsDatabase:
         cursor = conn.cursor()
         cursor.execute ('''
             CREATE TABLE IF NOT EXISTS cpu_metrics (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,
+                id INTEGER PRIMARY KEY,
+                timestamp INTEGER,
                 cpu_name TEXT,
                 utilization REAL
             )
@@ -87,26 +88,24 @@ class MetricsDatabase:
         finally:
             conn.close()
 
-    def get_all_metrics(self):
+    def get_metrics(self):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()    
         try:
             cursor.execute('SELECT timestamp, cpu_name, utilization FROM cpu_metrics ORDER BY timestamp, cpu_name')
             rows = cursor.fetchall()
 
-            series_data = {}
+            series_data = defaultdict(list)
             for timestamp, cpu_name, utilization in rows:
-                if cpu_name not in series_data:
-                    series_data[cpu_name] = []
                 series_data[cpu_name].append({
                     "timestamp": timestamp,
                     "utilization": utilization
                 })
-            return series_data
-        
+            return dict(series_data)
+                   
         except Exception as error:
             print(f"取得エラー: {error}")
-            return []
+            return {}
         finally:
             conn.close()    
 
@@ -114,7 +113,7 @@ db = MetricsDatabase()
 
 @app.get("/api/metrics")
 def get_metrics():
-    metrics = db.get_all_metrics()
+    metrics = db.get_metrics()
     return metrics
 
 @app.post("/api/metrics")
