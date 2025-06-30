@@ -49,15 +49,16 @@ function createCpuUsageChart(data) {
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
         return {     
             label: cpuName,
-            data: cpuData[cpuName],
+            data: cpuData[cpuName].filter((_, index) => index % 3 === 0),
             borderColor:  cpuColor(index),
             backgroundColor: cpuColor(index),
-            tension: 0.5,
+            tension: 0,
             fill: false, 
-            pointRadius: 2,
+            pointRadius: 3,
             pointHoverRadius: 6
         };
     });
+
     //chart.jsに新しいグラフオブジェクトを作る(全体用)
     new Chart(context, {
         type: 'line',
@@ -67,23 +68,24 @@ function createCpuUsageChart(data) {
             scales: {
                 x: { 
                     type: 'time',
+                    stepSize: 30,
                     title: { display: true, text: '時刻' },
                     time: {
-                        unit: 'second',
+                        unit: 'minute',
                         displayFormats: {
-                            second: 'HH:mm:ss'
+                            minute: 'HH:mm'
                         }
                     },
                     ticks: {
                         maxTicksLimit: 6,
-                        autoSkip: true
+                        autoSkip: false
                     }
                 },
                 y: { 
-                    suggestedMin: 0,
-                    suggestedMax: suggestedMax,
+                    beginAtZero: true,
+                    max: suggestedMax,
                     ticks: {
-                        //stepSize: 6
+                        stepSize: 10
                     },
                     title: { display: true, text: 'CPU使用率(%)' }
                 }
@@ -92,74 +94,11 @@ function createCpuUsageChart(data) {
     });
 }
 
-// CPU使用率グラフ(使用率が20%以下のデータのみ)作成
-function createZoomedChart(data) {
-    const zoomContext = document.getElementById('cpuLoadChartZoom').getContext('2d');
-    const { cpuData } = processCpuData(data);
-
-    // 20%以下のデータポイントのみ抽出
-    const filteredCpuData = {};
-    // 各CPUのデータをフィルタリング
-    Object.keys(cpuData).forEach(cpuName => {
-        filteredCpuData[cpuName] = cpuData[cpuName].filter(point => point.y <= 20);
-    });
-    
-    // フィルタリング後のデータから最大値を再計算
-    const filteredMaxUsage = Math.max(...Object.values(filteredCpuData).flat().map(data => data.y)
-    );
-    
-    const datasets = Object.keys(cpuData).map((cpuName, index) => {
-        return {     
-            label: cpuName,
-            data: cpuData[cpuName],
-            borderColor:  cpuColor(index),
-            backgroundColor: cpuColor(index),
-            tension: 0.5,
-            fill: false, 
-            pointRadius: 2,
-            pointHoverRadius: 6
-        };
-    });
-
-    new Chart(zoomContext, {
-        type: 'line',
-        data: { datasets },
-        options: {
-            responsive: true,
-            scales: {
-                x: { 
-                    type: 'time',
-                    title: { display: true, text: '時刻' },
-                    time: {
-                        unit: 'second',
-                        displayFormats: {
-                            second: 'HH:mm:ss'
-                        }
-                    },
-                    ticks: {
-                        maxTicksLimit: 6,
-                        autoSkip: true
-                    }
-                },
-                y: { 
-                    min: 0,
-                    max: filteredMaxUsage + 1.25,
-                    suggestedMax: 20,
-                    ticks: {
-                        stepSize: 1
-                    },
-                    title: { display: true, text: '20%以下のみのCPU使用率(%) ' }
-                }
-            }
-        }
-    });
-}
 
 // 関数の呼び出し
 loadMetricsData().then(data => {
     if (data) {
         createCpuUsageChart(data);
-        createZoomedChart(data);
     }
 });
 
@@ -168,6 +107,5 @@ loadMetricsData().then(data => {
 //    const data = await loadMetricsData();
 //    if (data) {
 //        createCpuUsageChart(data);
-//        createZoomedChart(data);
 //    }
 //}) (); 

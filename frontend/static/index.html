@@ -10,15 +10,10 @@
     <div class="container">
         <h1>各CPUの状態別グラフ</h1>
         <!-- 全体グラフ -->
-        <div class = "chart-container">
-            <div class = "whole">
-                <div style = "font-size:24px; margin-left: 10px; background-color: #fff;"><strong>CPU使用率推移</strong></div>
-                <canvas id = "cpuLoadChart"></canvas>
-            </div>
-        <!-- 拡大グラフ -->
-            <div class = "expansion" style = "margin-top:30px;">
-                <div style = "font-size:24px; margin-left: 10px; background-color: #fff;"><strong>CPU使用率20%以下拡大</strong></div>
-                <canvas id="cpuLoadChartZoom"></canvas>
+        <div class ="chart-container" style ="margin: 0 auto;">
+            <div class = "whole" style = "margin-top:15px; padding: 0 10px 0 10px;">
+                <div style = "font-size:24px; margin-top: 5px;"><strong>CPU使用率推移</strong></div>
+                <canvas id = "cpuLoadChart" styke="margin-top: 10px;"></canvas>
             </div>
         </div>
 
@@ -26,8 +21,8 @@
         <!--<div class="buttons">
             <button id="refreshButton">更新</button>
             <button id="downloadButton">ダウンロード</button>
-        </div> -->
-    </div>
+        </div> 
+    </div> -->
 
     <!-- Chart.js本体の読み込み -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
