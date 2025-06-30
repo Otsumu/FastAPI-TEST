@@ -26,13 +26,14 @@ function processCpuData(data) {
     return { cpuData, suggestedMax };
 }
 //cpuのグラフ色生成
-function generateCpuColor(index) {
-    const baseColors = ['#06B6D4', '#8B5CF6', '#F97316', '#DC2626', '#10B981', '#F59E0B', '#EF4444', '#8B5A2B'];
+function cpuColor(index) {
+    const baseColors = ['#06B6D0', '#8B5CF3', '#F97312', '#DC2620', '#10B982', '#F59E0C', '#EF4445', '#8B5A2C'];
+    const colorSteps = 16;
 
     if (index < baseColors.length) {
         return baseColors[index];
     } else {
-        const hue = (index * 360 / 16) % 360;
+        const hue = (index * 360 / colorSteps) % 360;
         return  `hsl(${hue}, 70%, 50%) `
     }
 }
@@ -49,8 +50,8 @@ function createCpuUsageChart(data) {
         return {     
             label: cpuName,
             data: cpuData[cpuName],
-            borderColor:  generateCpuColor(index),
-            backgroundColor: generateCpuColor(index),
+            borderColor:  cpuColor(index),
+            backgroundColor: cpuColor(index),
             tension: 0.5,
             fill: false, 
             pointRadius: 2,
@@ -111,8 +112,8 @@ function createZoomedChart(data) {
         return {     
             label: cpuName,
             data: cpuData[cpuName],
-            borderColor:  generateCpuColor(index),
-            backgroundColor: generateCpuColor(index),
+            borderColor:  cpuColor(index),
+            backgroundColor: cpuColor(index),
             tension: 0.5,
             fill: false, 
             pointRadius: 2,
