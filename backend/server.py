@@ -21,7 +21,7 @@ class MetricsDatabase:
             CREATE TABLE IF NOT EXISTS cpu_metrics (
                 id INTEGER PRIMARY KEY,
                 timestamp INTEGER NOT NULL, --UNIX秒
-                cpu_name TEXT,
+                cpu_name INTEGER,
                 utilization REAL CHECK (utilization BETWEEN 0 AND 70) -- CPU使用率は0から70の範囲
             )
        ''')
@@ -139,7 +139,7 @@ class MetricsDatabase:
 db = MetricsDatabase()
 
 @app.get("/api/metrics")
-def get_metrics(mode: str = "realtime"):
+def get_metrics(mode: str ="realtime"):
     metrics = db.get_metrics()
     return metrics
 

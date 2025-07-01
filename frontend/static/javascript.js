@@ -1,5 +1,5 @@
 //APIからデータを取得
-async function loadMetricsData(mode = "realtime") {
+async function loadMetricsData(mode ="realtime") {
     try {
         const response = await fetch(`/api/metrics?mode=${mode}`);
         const data  = await response.json();
@@ -25,6 +25,7 @@ function processCpuData(data) {
     
     return { cpuData, suggestedMax };
 }
+
 //cpuのグラフ色生成
 function cpuColor(index) {
     const baseColors = ['#06B6D0', '#8B5CF3', '#F97312', '#DC2620', '#10B982', '#F59E0C', '#EF4445', '#8B5A2C'];
@@ -34,23 +35,69 @@ function cpuColor(index) {
         return baseColors[index];
     } else {
         const hue = (index * 360 / colorSteps) % 360;
-        return  `hsl(${hue}, 70%, 50%) `
+        return  `hsl(${hue}, 70%, 50%)`;
     }
 }
 
-// CPU使用率グラフ(全体)作成
-function createCpuUsageChart(data) {
+//各モードに応じた時間設定
+function getTimeSettings(mode) {
+    switch(mode) {
+        case 'realtime':
+            return {
+                unit: 'minute',
+                displayFormat: 'HH:mm',
+                stepSize: 10,      // 10分ごとに目盛り
+                maxTicksLimit: 20, // 3時間で約18個の目盛り
+                title: '時刻(リアルタイム)'
+            };
+        case '10minutes':
+            return {
+                unit: 'minute',
+                displayFormat: 'HH:mm', 
+                stepSize: 20,      // 20分ごとに目盛り
+                maxTicksLimit: 10, // 3時間で9個の目盛り
+                title: '時刻(10分間隔)'
+            };
+        case '1hour':
+            return {
+                unit: 'hour',
+                displayFormat: 'HH:mm',
+                stepSize: 1,       // 1時間ごとに目盛り
+                maxTicksLimit: 4,  // 3時間で4個の目盛り（0,1,2,3時間）
+                title: '時刻(1時間間隔)'
+            };
+        default:
+            return {
+                unit: 'minute',
+                displayFormat: 'HH:mm',
+                stepSize: 10,
+                maxTicksLimit: 20,
+                title: '時刻'
+            };
+    }
+}
+
+//グローバル変数でcpuChartを定義、生成
+let cpuChart = null;
+
+// CPU使用率グラフ(全体)作成 - modeパラメータを追加
+function createCpuUsageChart(data, mode = 'realtime') {
     //2次元描画モードのグラフを作成
     const context = document.getElementById('cpuLoadChart').getContext('2d');
     //processCpuData()呼び出し
     const { cpuData, suggestedMax } = processCpuData(data);
-
+    const timeSettings = getTimeSettings(mode);
+    
     // chart.jsのデータを作成
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
+        const chartData = mode === "realtime"
+        ? cpuData[cpuName].filter((_, index) => index % 3 === 0)
+        : cpuData[cpuName];
+        
         return {     
             label: cpuName,
-            data: cpuData[cpuName].filter((_, index) => index % 3 === 0),
-            borderColor:  cpuColor(index),
+            data: chartData,
+            borderColor: cpuColor(index),
             backgroundColor: cpuColor(index),
             tension: 0,
             fill: false, 
@@ -59,8 +106,13 @@ function createCpuUsageChart(data) {
         };
     });
 
-    //chart.jsに新しいグラフオブジェクトを作る(全体用)
-    new Chart(context, {
+    // 既存のチャートがあれば破棄
+    if (cpuChart) {
+        cpuChart.destroy();
+    }
+
+    // 新しいチャートを作成
+    cpuChart = new Chart(context, {
         type: 'line',
         data: { datasets },
         options: {
@@ -77,25 +129,25 @@ function createCpuUsageChart(data) {
             scales: {
                 x: { 
                     type: 'time',
-                    stepSize: 3,
+                    stepSize: timeSettings.stepSize,
                     title: { 
                         display: true, 
-                        text: '時刻' ,
+                        text: timeSettings.title,
                         font: {
                             size: 15
                         }       
                     },
                     time: {
-                        unit: 'minute',
+                        unit: timeSettings.unit,
                         displayFormats: {
-                            minute: 'HH:mm'
+                            [timeSettings.unit]: timeSettings.displayFormat
                         }
                     },
                     ticks: {
-                        maxTicksLimit: 60,
+                        maxTicksLimit: timeSettings.maxTicksLimit,
                         autoSkip: true,
                         padding: 10,
-                        font : {
+                        font: {
                             size: 15
                         }   
                     }
@@ -123,18 +175,36 @@ function createCpuUsageChart(data) {
     });
 }
 
+// モード変更時の処理
+async function handleModeChange(mode) {
+    try {
+        // ローディング表示（オプション）
+        console.log(`${mode}モードのデータを読み込み中...`);
+        
+        const data = await loadMetricsData(mode);
+        if (data) {
+            createCpuUsageChart(data, mode);
+        }
+    } catch (error) {
+        console.error('モード変更エラー:', error);
+    }
+}
 
-// 関数の呼び出し
-loadMetricsData().then(data => {
-    if (data) {
-        createCpuUsageChart(data);
+// セレクトボックスのイベントリスナー
+document.addEventListener('DOMContentLoaded', function() {
+    // 初期データ読み込み
+    loadMetricsData().then(data => {
+        if (data) {
+            createCpuUsageChart(data, 'realtime');
+        }
+    });
+    
+    // セレクトボックスの変更を監視
+    const modeSelect = document.getElementById('modeSelect');
+    if (modeSelect) {
+        modeSelect.addEventListener('change', function() {
+            const selectedMode = this.value;
+            handleModeChange(selectedMode);
+        });
     }
 });
-
-// then()を使用しないコード、ページが開かれた時に、APIからデータを取得してグラフを描画する
-//(async () => {
-//    const data = await loadMetricsData();
-//    if (data) {
-//        createCpuUsageChart(data);
-//    }
-//}) (); 
