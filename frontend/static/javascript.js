@@ -1,7 +1,7 @@
 //APIからデータを取得
-async function loadMetricsData() {
+async function loadMetricsData(mode = "realtime") {
     try {
-        const response = await fetch('/api/metrics');
+        const response = await fetch(`/api/metrics?mode=${mode}`);
         const data  = await response.json();
         return data;
     } catch (error) {
@@ -65,11 +65,26 @@ function createCpuUsageChart(data) {
         data: { datasets },
         options: {
             responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 16
+                        }
+                    }
+                }
+            },
             scales: {
                 x: { 
                     type: 'time',
-                    stepSize: 30,
-                    title: { display: true, text: '時刻' },
+                    stepSize: 3,
+                    title: { 
+                        display: true, 
+                        text: '時刻' ,
+                        font: {
+                            size: 15
+                        }       
+                    },
                     time: {
                         unit: 'minute',
                         displayFormats: {
@@ -77,17 +92,31 @@ function createCpuUsageChart(data) {
                         }
                     },
                     ticks: {
-                        maxTicksLimit: 6,
-                        autoSkip: false
+                        maxTicksLimit: 60,
+                        autoSkip: true,
+                        padding: 10,
+                        font : {
+                            size: 15
+                        }   
                     }
                 },
                 y: { 
                     beginAtZero: true,
                     max: suggestedMax,
                     ticks: {
-                        stepSize: 10
+                        stepSize: 10,
+                        padding: 10,
+                        font: {
+                            size: 15
+                        }                           
                     },
-                    title: { display: true, text: 'CPU使用率(%)' }
+                    title: { 
+                        display: true, 
+                        text: 'CPU使用率(%)',
+                        font: {
+                            size: 15
+                        }
+                    }
                 }
             }
         }

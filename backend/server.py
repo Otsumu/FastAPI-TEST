@@ -20,9 +20,9 @@ class MetricsDatabase:
         cursor.execute ('''
             CREATE TABLE IF NOT EXISTS cpu_metrics (
                 id INTEGER PRIMARY KEY,
-                timestamp INTEGER,
+                timestamp INTEGER NOT NULL, --UNIX秒
                 cpu_name TEXT,
-                utilization REAL
+                utilization REAL CHECK (utilization BETWEEN 0 AND 70) -- CPU使用率は0から70の範囲
             )
        ''')
         conn.commit()
@@ -88,18 +88,45 @@ class MetricsDatabase:
         finally:
             conn.close()
 
-    def get_metrics(self):
+    def get_metrics(self, mode ="realtime"):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()    
         try:
-            cursor.execute('SELECT timestamp, cpu_name, utilization FROM cpu_metrics ORDER BY timestamp, cpu_name')
+            if mode == "realtime":
+                query = """
+                    SELECT timestamp, cpu_name, utilization 
+                    FROM cpu_metrics 
+                    ORDER BY timestamp, cpu_name
+                """
+            elif mode == "10minutes":
+                query = """
+                    SELECT strftime('%Y-%m-%d %H:', timestamp, 'unixepoch') || printf('%02d:00', (CAST(strftime('%M', timestamp, 'unixepoch') AS INTEGER) / 10) * 10) AS bucket,
+                           cpu_name, 
+                           AVG(utilization)
+                    FROM cpu_metrics
+                    GROUP BY bucket, cpu_name
+                    ORDER BY bucket, cpu_name
+                """
+            elif mode == "1hour":
+                query = """
+                    SELECT strftime('%Y-%m-%d %H:00:00', timestamp, 'unixepoch') AS bucket, 
+                           cpu_name, 
+                           AVG(utilization)
+                    FROM cpu_metrics
+                    GROUP BY bucket, cpu_name
+                    ORDER BY bucket, cpu_name
+                """
+            else:
+                raise ValueError("'realtime', '10minutes', '1hour'のいずれかを指定してください")
+        
+            cursor.execute(query)
             rows = cursor.fetchall()
 
             series_data = defaultdict(list)
-            for timestamp, cpu_name, utilization in rows:
+            for bucket_or_ts, cpu_name, utilization in rows:
                 series_data[cpu_name].append({
-                    "timestamp": timestamp,
-                    "utilization": utilization
+                    "timestamp": bucket_or_ts,
+                    "utilization": round(utilization, 2) if isinstance(utilization, float) else utilization
                 })
             return dict(series_data)
                    
@@ -112,7 +139,7 @@ class MetricsDatabase:
 db = MetricsDatabase()
 
 @app.get("/api/metrics")
-def get_metrics():
+def get_metrics(mode: str = "realtime"):
     metrics = db.get_metrics()
     return metrics
 
@@ -124,5 +151,3 @@ def post_metrics(json_data: dict):
         return {"status": "success", "inserted": result}
     else:
         return {"status": "error", "message": "データ挿入に失敗しました"}
-
-          
