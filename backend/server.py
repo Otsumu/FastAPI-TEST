@@ -101,9 +101,6 @@ class MetricsDatabase:
                         utilization = (1 - idle_rate) * 100
                         utilization_int = int(utilization * 100)
 
-                        print(f"DEBUG: cpu_id={cpu_id}, timestamp={timestamp}, utilization={utilization}, utilization_int={utilization_int}")
-
-
                         if cpu_id is not None and timestamp is not None:
                             cursor.execute('''
                                 INSERT INTO cpu_metrics(timestamp, cpu_id, utilization)
@@ -134,35 +131,46 @@ class MetricsDatabase:
                 """
             elif mode == "10minutes":
                 query = """
-                    SELECT strftime('%Y-%m-%d %H:', timestamp, 'unixepoch') || printf('%02d:00', (CAST(strftime('%M', timestamp, 'unixepoch') AS INTEGER) / 10) * 10) AS bucket,
+                    SELECT strftime('%Y-%m-%d %H:', timestamp, 'unixepoch','localtime') || printf('%02d:00', (CAST(strftime('%M', timestamp, 'unixepoch','localtime') AS INTEGER) / 10) * 10) AS bucket,
                            cpu_id, 
-                           AVG(utilization)
+                           AVG(utilization) as avg_value,
+                           COUNT(utilization) as count_value
                     FROM cpu_metrics
                     GROUP BY bucket, cpu_id
                     ORDER BY bucket, cpu_id
                 """
             elif mode == "1hour":
                 query = """
-                    SELECT strftime('%Y-%m-%d %H:00:00', timestamp, 'unixepoch') AS bucket, 
+                    SELECT strftime('%Y-%m-%d %H:00:00', timestamp, 'unixepoch','localtime') AS bucket, 
                            cpu_id, 
-                           AVG(utilization)
+                           AVG(utilization) as avg_value,
+                           COUNT(utilization) as count_value
                     FROM cpu_metrics
                     GROUP BY bucket, cpu_id
                     ORDER BY bucket, cpu_id
                 """
             else:
                 raise ValueError("いずれかの時間を指定してください")
-        
+            
             cursor.execute(query)
             rows = cursor.fetchall()
            
             series_data = defaultdict(list)
-            for bucket_or_ts, cpu_id, utilization in rows:
-                label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
-                series_data[label].append({
-                    "timestamp": bucket_or_ts,
-                    "utilization": round(utilization, 2) if isinstance(utilization, float) else utilization
+            if mode == "realtime":
+                for bucket_or_ts, cpu_id, utilization, in rows:
+                    label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
+                    series_data[label].append({
+                        "timestamp": bucket_or_ts,
+                        "utilization": utilization
                 })
+            else:
+                for bucket_or_ts, cpu_id, utilization, count_value in rows:
+                    print(f"COUNT : {count_value}")
+                    label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
+                    series_data[label].append({
+                        "timestamp": bucket_or_ts,
+                        "utilization": utilization
+                    })
             return dict(series_data)
                    
         except Exception as error:

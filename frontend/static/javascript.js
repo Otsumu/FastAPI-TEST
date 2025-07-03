@@ -11,12 +11,12 @@ async function loadMetricsData(mode ="realtime") {
 }
 
 // 共通のデータ処理関数
-function processCpuData(data) {
+function processCpuData(data, mode) {
     const cpuData = {};
     Object.keys(data).forEach(cpuName => {
         cpuData[cpuName] = data[cpuName].map(point => ({
-            x:point.timestamp,
-            y:point.utilization
+            x : mode === "realtime" ? new Date(point.timestamp * 1000) : point.timestamp,
+            y : point.utilization 
         }))
     })
     //10の倍数に切り上げてグラフの見た目を良くする
@@ -85,7 +85,7 @@ function createCpuUsageChart(data, mode = 'realtime') {
     //2次元描画モードのグラフを作成
     const context = document.getElementById('cpuLoadChart').getContext('2d');
     //processCpuData()呼び出し
-    const { cpuData, suggestedMax } = processCpuData(data);
+    const { cpuData, suggestedMax } = processCpuData(data, mode);
     const timeSettings = getTimeSettings(mode);
     
     // chart.jsのデータを作成

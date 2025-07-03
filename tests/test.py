@@ -40,12 +40,13 @@ if response.status_code == 200:
     result = response.json()
     cpu_count = len(result)
     total_points = sum(len(cpu_data) for cpu_data in result.values())
-    print(f"CPU数:{cpu_count}, 合計データポイント数 {total_points}")
+    print(f"CPU数:{cpu_count}, 合計データ数 {total_points}")
 
     for cpu_name, data in result.items():
         print(f"{cpu_name}: {len(data)}件")
-    else:
-        print(f"エラー：{response.status_code}")
+        
+else:
+    print(f"エラー：{response.status_code}")
 
 print("\n=== テスト完了 ===")
 
