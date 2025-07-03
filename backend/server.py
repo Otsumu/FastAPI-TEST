@@ -95,7 +95,7 @@ class MetricsDatabase:
                             #ナノ秒（10⁻⁹秒）を秒単位に変換するため、10億で割る
                                 timestamp_nano_int = int(timestamp_nano)
                                 timestamp = timestamp_nano_int // 1000000000
-                            except (ValueError,TypeError):
+                            except (ValueError, TypeError):
                                 timestamp = None
                         # CPU使用率の計算
                         utilization = (1 - idle_rate) * 100
