@@ -44,7 +44,7 @@ if response.status_code == 200:
 
     for cpu_name, data in result.items():
         print(f"{cpu_name}: {len(data)}件")
-        
+
 else:
     print(f"エラー：{response.status_code}")
 
