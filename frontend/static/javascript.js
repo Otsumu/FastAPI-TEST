@@ -90,10 +90,7 @@ function createCpuUsageChart(data, mode = 'realtime') {
     
     // chart.jsのデータを作成
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
-        const chartData = mode === "realtime"
-        ? cpuData[cpuName].filter((_, index) => index % 3 === 0)
-        : cpuData[cpuName];
-        
+        const chartData = mode === "realtime" ? cpuData[cpuName].filter((_, index) => index % 3 === 0) : cpuData[cpuName];
         return {     
             label: cpuName,
             data: chartData,
@@ -176,7 +173,7 @@ function createCpuUsageChart(data, mode = 'realtime') {
 }
 
 // モード変更時の処理
-async function handleModeChange(mode) {
+async function modeChange(mode) {
     try {
         // ローディング表示（オプション）
         console.log(`${mode}モードのデータを読み込み中...`);
@@ -204,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modeSelect) {
         modeSelect.addEventListener('change', function() {
             const selectedMode = this.value;
-            handleModeChange(selectedMode);
+            modeChange(selectedMode);
         });
     }
 });

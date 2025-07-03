@@ -1,7 +1,7 @@
 import requests
 import json
 
-server = "http://localhost/api"
+server = "http://localhost:8000/api"
 
 print("=== fastAPI-TEST テスト ===")
 
@@ -36,8 +36,16 @@ print(f"\n合計挿入件数: {total_inserted}")
 # メッセージ確認
 print("\n3. GET テスト（挿入後確認）")
 response = requests.get(f"{server}/metrics")
-result = response.json()
-print(f"件数: {result['count']}")
+if response.status_code == 200:
+    result = response.json()
+    cpu_count = len(result)
+    total_points = sum(len(cpu_data) for cpu_data in result.values())
+    print(f"CPU数:{cpu_count}, 合計データポイント数 {total_points}")
+
+    for cpu_name, data in result.items():
+        print(f"{cpu_name}: {len(data)}件")
+    else:
+        print(f"エラー：{response.status_code}")
 
 print("\n=== テスト完了 ===")
 

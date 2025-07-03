@@ -6,25 +6,46 @@ from collections import defaultdict
 
 app = FastAPI()
 
-# フロントエンドの静的ファイルを提供するためにFastAPIのStaticFilesを使用
+# フロントエンドの静的ファイルを使用するためにFastAPIのStaticFilesを設定
 app.mount("/frontend/static", StaticFiles(directory="../frontend/static"), name="static")
 
 class MetricsDatabase:
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
+        self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
         self.init_database()
 
     def init_database(self):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
+        #生データテーブル
         cursor.execute ('''
             CREATE TABLE IF NOT EXISTS cpu_metrics (
                 id INTEGER PRIMARY KEY,
                 timestamp INTEGER NOT NULL, --UNIX秒
-                cpu_name INTEGER,
-                utilization REAL CHECK (utilization BETWEEN 0 AND 70) -- CPU使用率は0から70の範囲
+                cpu_id INTEGER, -- cpu_name → cpu_id に改名
+                utilization INTEGER CHECK (utilization BETWEEN 0 AND 7000) -- CPU使用率は0から70の範囲
             )
        ''')
+        #集計データテーブル
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS cpu_metrics_summary (
+                id INTEGER PRIMARY KEY,
+                bucket_timestamp INTEGER, --バケット開始時刻
+                interval_type TEXT, --'10min''1hour'等の時間の間隔指定で利用
+                cpu_id INTEGER,
+                avg_utilization INTEGER,
+                max_utilization INTEGER,
+                min_utilization INTEGER
+            )                  
+        ''')
+        cursor.execute('''
+            CREATE INDEX IF NOT EXISTS index_ts_cpuid ON cpu_metrics(timestamp,cpu_id);            
+        ''')
+        cursor.execute('''
+            CREATE INDEX IF NOT EXISTS index_bucket_type_cpu_id ON cpu_metrics_summary(bucket_timestamp,interval_type,cpu_id);           
+        ''')
+        
         conn.commit()
         conn.close()
         print("データベースに接続できました")
@@ -34,7 +55,7 @@ class MetricsDatabase:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         inserted_count = 0
-        
+
         try:    
             all_metrics = []
             for resource_metrics in json_data.get('resourceMetrics',[]):
@@ -46,14 +67,19 @@ class MetricsDatabase:
                     data_points = metric.get('gauge', {}).get('dataPoints', [])
                     #ループの都度初期化
                     for data_point in data_points:
-                        cpu_name = ''
+                        cpu_id = None
                         idle_rate = 0
-                        timestamp = ''
+                        timestamp = None
                         
                         attributes = data_point.get('attributes', [])
                         for attr in attributes:
                             if attr.get('key') == 'cpu':
                                 cpu_name = attr.get('value', {}).get('stringValue', '')
+                                if cpu_name.startswith('cpu') :
+                                    try:
+                                        cpu_id = int(cpu_name.replace('cpu',''))
+                                    except ValueError:
+                                        cpu_id = None
                             if attr.get('key') == 'state':
                                 state = attr.get('value', {}).get('stringValue', '')
                                 if state == 'idle':
@@ -65,16 +91,24 @@ class MetricsDatabase:
                         # timeUnixNanoはナノ秒単位なので、秒単位に変換する必要がある
                         timestamp_nano = data_point.get('timeUnixNano', 0)
                         if timestamp_nano:
+                            try:
                             #ナノ秒（10⁻⁹秒）を秒単位に変換するため、10億で割る
-                            timestamp = datetime.fromtimestamp(int(timestamp_nano) / 1000000000).isoformat()
+                                timestamp_nano_int = int(timestamp_nano)
+                                timestamp = timestamp_nano_int // 1000000000
+                            except (ValueError,TypeError):
+                                timestamp = None
                         # CPU使用率の計算
                         utilization = (1 - idle_rate) * 100
+                        utilization_int = int(utilization * 100)
 
-                        if cpu_name and timestamp:
+                        print(f"DEBUG: cpu_id={cpu_id}, timestamp={timestamp}, utilization={utilization}, utilization_int={utilization_int}")
+
+
+                        if cpu_id is not None and timestamp is not None:
                             cursor.execute('''
-                                INSERT INTO cpu_metrics(timestamp, cpu_name, utilization)
+                                INSERT INTO cpu_metrics(timestamp, cpu_id, utilization)
                                 VALUES(?, ?, ?)
-                            ''', (timestamp, cpu_name, utilization))  
+                            ''', (timestamp, cpu_id, utilization))  
                             inserted_count += 1
             
             conn.commit()
@@ -94,37 +128,38 @@ class MetricsDatabase:
         try:
             if mode == "realtime":
                 query = """
-                    SELECT timestamp, cpu_name, utilization 
+                    SELECT timestamp, cpu_id, utilization 
                     FROM cpu_metrics 
-                    ORDER BY timestamp, cpu_name
+                    ORDER BY timestamp, cpu_id
                 """
             elif mode == "10minutes":
                 query = """
                     SELECT strftime('%Y-%m-%d %H:', timestamp, 'unixepoch') || printf('%02d:00', (CAST(strftime('%M', timestamp, 'unixepoch') AS INTEGER) / 10) * 10) AS bucket,
-                           cpu_name, 
+                           cpu_id, 
                            AVG(utilization)
                     FROM cpu_metrics
-                    GROUP BY bucket, cpu_name
-                    ORDER BY bucket, cpu_name
+                    GROUP BY bucket, cpu_id
+                    ORDER BY bucket, cpu_id
                 """
             elif mode == "1hour":
                 query = """
                     SELECT strftime('%Y-%m-%d %H:00:00', timestamp, 'unixepoch') AS bucket, 
-                           cpu_name, 
+                           cpu_id, 
                            AVG(utilization)
                     FROM cpu_metrics
-                    GROUP BY bucket, cpu_name
-                    ORDER BY bucket, cpu_name
+                    GROUP BY bucket, cpu_id
+                    ORDER BY bucket, cpu_id
                 """
             else:
-                raise ValueError("'realtime', '10minutes', '1hour'のいずれかを指定してください")
+                raise ValueError("いずれかの時間を指定してください")
         
             cursor.execute(query)
             rows = cursor.fetchall()
-
+           
             series_data = defaultdict(list)
-            for bucket_or_ts, cpu_name, utilization in rows:
-                series_data[cpu_name].append({
+            for bucket_or_ts, cpu_id, utilization in rows:
+                label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
+                series_data[label].append({
                     "timestamp": bucket_or_ts,
                     "utilization": round(utilization, 2) if isinstance(utilization, float) else utilization
                 })
@@ -140,7 +175,7 @@ db = MetricsDatabase()
 
 @app.get("/api/metrics")
 def get_metrics(mode: str ="realtime"):
-    metrics = db.get_metrics()
+    metrics = db.get_metrics(mode)
     return metrics
 
 @app.post("/api/metrics")

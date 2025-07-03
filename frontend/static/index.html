@@ -14,10 +14,20 @@
                 <div style = "display: flex; align-items: center;  margin-bottom: 10px;">
                     <span style = "color: gray; font-size: 28px; font-weight: bold;">CPU使用率推移</span> 
                 <select id ="modeSelect" style ="color: gray; margin-left: 20px; padding: 5px 20px; font-size: 16px;">
-                <option value="realtime">リアルタイム</option>
-                <option value="10minutes">10分間隔</option>
-                <option value="1hour">1時間間隔</option>
-            </select>
+                    <option value="realtime">リアルタイム</option>
+                    <option value="10minutes">10分間隔</option>
+                    <option value="1hour">1時間間隔</option>
+                </select>
+                <select id = "timeRangeSelect" style ="color: gray; margin-left: 20px; padding: 5px 30px; font-size: 16px;">
+                    <option value="recent-10min">直近10分</option>                
+                    <option value="recent-1hour">直近1時間</option>
+                    <option value="custom">指定する</option>
+                </select>
+                <div id ="customRangeInputs" style ="display : none;">
+                    <input type="daytime-local" id="startTime">
+                    <input type="daytime-local" id="endTime">
+                    <button onclick="fetchCustomRange()">表示</button> 
+                </div>
             </div>
             <canvas id = "cpuLoadChart" style="margin-top: 20px; padding: 10px;"></canvas>
         </div>
