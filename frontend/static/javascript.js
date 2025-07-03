@@ -174,10 +174,7 @@ function createCpuUsageChart(data, mode = 'realtime') {
 
 // モード変更時の処理
 async function modeChange(mode) {
-    try {
-        // ローディング表示（オプション）
-        console.log(`${mode}モードのデータを読み込み中...`);
-        
+    try {        
         const data = await loadMetricsData(mode);
         if (data) {
             createCpuUsageChart(data, mode);
