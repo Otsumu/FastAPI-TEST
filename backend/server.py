@@ -31,17 +31,20 @@ class MetricsDatabase:
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS cpu_metrics_summary (
                 id INTEGER PRIMARY KEY,
-                bucket_timestamp INTEGER, --バケット開始時刻
+                bucket_timestamp INTEGER, --バケット開始時刻、集計期間の特定のために設定
                 interval_type TEXT, --'10min''1hour'等の時間の間隔指定で利用
                 cpu_id INTEGER,
                 avg_utilization INTEGER,
                 max_utilization INTEGER,
-                min_utilization INTEGER
+                min_utilization INTEGER,
+                sample_count INTEGER --集計対象データ数
             )                  
         ''')
+        #timestampとcpu_idにindexを貼付
         cursor.execute('''
             CREATE INDEX IF NOT EXISTS index_ts_cpuid ON cpu_metrics(timestamp,cpu_id);            
         ''')
+        #bucket or timestampとinterval_time、cpu_idにindexを貼付
         cursor.execute('''
             CREATE INDEX IF NOT EXISTS index_bucket_type_cpu_id ON cpu_metrics_summary(bucket_timestamp,interval_type,cpu_id);           
         ''')

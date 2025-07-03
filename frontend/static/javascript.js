@@ -184,7 +184,6 @@ async function modeChange(mode) {
     }
 }
 
-// セレクトボックスのイベントリスナー
 document.addEventListener('DOMContentLoaded', function() {
     // 初期データ読み込み
     loadMetricsData().then(data => {
@@ -193,7 +192,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // セレクトボックスの変更を監視
     const modeSelect = document.getElementById('modeSelect');
     if (modeSelect) {
         modeSelect.addEventListener('change', function() {
