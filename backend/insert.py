@@ -1,8 +1,13 @@
 import sqlite3
 from collections import defaultdict
-from connection import MetricsDatabase
 
 class MetricsDatabase:
+    def __init__(self, db_path: str="../data/metrics.db"):
+        self.db_path = db_path
+        self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
+        from connection import MetricsDatabase
+        conn_db = MetricsDatabase()
+
     def insert_cpu_utilization(self, json_data):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -57,7 +62,7 @@ class MetricsDatabase:
                             cursor.execute('''
                                 INSERT INTO cpu_metrics(timestamp, cpu_id, utilization)
                                 VALUES(?, ?, ?)
-                            ''', (timestamp, cpu_id, utilization))  
+                            ''', (timestamp, cpu_id, utilization_int))  
                             inserted_count += 1
             
             conn.commit()
@@ -71,64 +76,64 @@ class MetricsDatabase:
         finally:
             conn.close()
     
-def get_metrics(self, mode ="realtime"):
-    """リアルタイムの生データを取得"""
-    conn = sqlite3.connect(self.db_path)
-    cursor = conn.cursor()    
-    try:
-        if mode == "realtime":
-            query = """
-                SELECT timestamp, cpu_id, utilization 
-                FROM cpu_metrics 
-                ORDER BY timestamp, cpu_id
-            """
-        elif mode == "10minutes":
-            query = """
-                SELECT strftime('%Y-%m-%d %H:', timestamp, 'unixepoch','localtime') || printf('%02d:00', (CAST(strftime('%M', timestamp, 'unixepoch','localtime') AS INTEGER) / 10) * 10) AS bucket,
-                    cpu_id, 
-                    AVG(utilization) as avg_value,
-                    COUNT(utilization) as count_value
-                    FROM cpu_metrics
-                    GROUP BY bucket, cpu_id
-                    ORDER BY bucket, cpu_id
-            """
-        elif mode == "1hour":
-            query = """
-                SELECT strftime('%Y-%m-%d %H:00:00', timestamp, 'unixepoch','localtime') AS bucket, 
-                    cpu_id, 
-                    AVG(utilization) as avg_value,
-                    COUNT(utilization) as count_value
-                    FROM cpu_metrics
-                    GROUP BY bucket, cpu_id
-                    ORDER BY bucket, cpu_id
-            """
-        else:
-            raise ValueError("いずれかの時間を指定してください")
+    def get_metrics(self, mode ="realtime"):
+        """リアルタイムの生データを取得"""
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()    
+        try:
+            if mode == "realtime":
+                query = """
+                    SELECT timestamp, cpu_id, utilization 
+                    FROM cpu_metrics 
+                    ORDER BY timestamp, cpu_id
+                """
+            elif mode == "10minutes":
+                query = """
+                    SELECT strftime('%Y-%m-%d %H:', timestamp, 'unixepoch','localtime') || printf('%02d:00', (CAST(strftime('%M', timestamp, 'unixepoch','localtime') AS INTEGER) / 10) * 10) AS bucket,
+                        cpu_id, 
+                        AVG(utilization) as avg_value,
+                        COUNT(utilization) as count_value
+                        FROM cpu_metrics
+                        GROUP BY bucket, cpu_id
+                        ORDER BY bucket, cpu_id
+                """
+            elif mode == "1hour":
+                query = """
+                    SELECT strftime('%Y-%m-%d %H:00:00', timestamp, 'unixepoch','localtime') AS bucket, 
+                        cpu_id, 
+                        AVG(utilization) as avg_value,
+                        COUNT(utilization) as count_value
+                        FROM cpu_metrics
+                        GROUP BY bucket, cpu_id
+                        ORDER BY bucket, cpu_id
+                """
+            else:
+                raise ValueError("いずれかの時間を指定してください")
             
-        cursor.execute(query)
-        rows = cursor.fetchall()
+            cursor.execute(query)
+            rows = cursor.fetchall()
            
-        series_data = defaultdict(list)
-        if mode == "realtime":
-            for bucket_or_ts, cpu_id, utilization, in rows:
-                label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
-                series_data[label].append({
+            series_data = defaultdict(list)
+            if mode == "realtime":
+                for bucket_or_ts, cpu_id, utilization in rows:
+                    label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
+                    series_data[label].append({
                     "timestamp": bucket_or_ts,
                     "utilization": utilization
-            })
-        else:
-            for bucket_or_ts, cpu_id, utilization, count_value in rows:
-                print(f"COUNT : {count_value}")
-                label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
-                series_data[label].append({
-                    "timestamp": bucket_or_ts,
-                    "utilization": utilization
-            })
+                })
+            else:
+                for bucket_or_ts, cpu_id, utilization, count_value in rows:
+                    print(f"COUNT : {count_value}")
+                    label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
+                    series_data[label].append({
+                        "timestamp": bucket_or_ts,
+                        "utilization": utilization
+                })
             return dict(series_data)
                    
-    except Exception as error:
-        print(f"取得エラー: {error}")
-        return {}
-    finally:
-        conn.close()    
+        except Exception as error:
+            print(f"取得エラー: {error}")
+            return {}
+        finally:
+            conn.close()    
 
