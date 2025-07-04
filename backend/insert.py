@@ -77,7 +77,6 @@ class MetricsDatabase:
             conn.close()
     
     def get_metrics(self, mode ="realtime"):
-        """リアルタイムの生データを取得"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()    
         try:
