@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from insert import MetricsDatabase
+from insert import MetricsDatabase as ConnectionDB
 
 app = FastAPI()
 
 # フロントエンドの静的ファイルを使用するためにFastAPIのStaticFilesを設定
 app.mount("/frontend/static", StaticFiles(directory="../frontend/static"), name="static")
 
-db = MetricsDatabase()
+db = ConnectionDB()
         
 @app.get("/api/metrics")
 def get_metrics(mode: str ="realtime"):
