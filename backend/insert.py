@@ -1,56 +1,12 @@
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from insert import MetricsDatabase as ConnectionDB
-
-app = FastAPI()
-
-# フロントエンドの静的ファイルを使用するためにFastAPIのStaticFilesを設定
-app.mount("/frontend/static", StaticFiles(directory="../frontend/static"), name="static")
+import sqlite3
+from collections import defaultdict
+from connection import MetricsDatabase as ConnectionDB
 
 class MetricsDatabase:
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
         self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
-        self.init_database()
-
-    def init_database(self):
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        #生データテーブル
-        cursor.execute ('''
-            CREATE TABLE IF NOT EXISTS cpu_metrics (
-                id INTEGER PRIMARY KEY,
-                timestamp INTEGER NOT NULL, --UNIX秒
-                cpu_id INTEGER, -- cpu_name → cpu_id に改名
-                utilization INTEGER CHECK (utilization BETWEEN 0 AND 7000) -- CPU使用率は0から70の範囲
-            )
-       ''')
-        #集計データテーブル
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS cpu_metrics_summary (
-                id INTEGER PRIMARY KEY,
-                bucket_timestamp INTEGER, --バケット開始時刻、集計期間の特定のために設定
-                interval_type TEXT, --'10min''1hour'等の時間の間隔指定で利用
-                cpu_id INTEGER,
-                avg_utilization INTEGER,
-                max_utilization INTEGER,
-                min_utilization INTEGER,
-                sample_count INTEGER --集計対象データ数
-            )                  
-        ''')
-        #timestampとcpu_idにindexを貼付
-        cursor.execute('''
-            CREATE INDEX IF NOT EXISTS index_ts_cpuid ON cpu_metrics(timestamp,cpu_id);            
-        ''')
-        #bucket or timestampとinterval_time、cpu_idにindexを貼付
-        cursor.execute('''
-            CREATE INDEX IF NOT EXISTS index_bucket_type_cpu_id ON cpu_metrics_summary(bucket_timestamp,interval_type,cpu_id);           
-        ''')
-    
-        conn.commit()
-        conn.close()
-        print("データベースに接続できました")
-        
+        conn_db = ConnectionDB()
 
     def insert_cpu_utilization(self, json_data):
         conn = sqlite3.connect(self.db_path)
@@ -106,7 +62,7 @@ class MetricsDatabase:
                             cursor.execute('''
                                 INSERT INTO cpu_metrics(timestamp, cpu_id, utilization)
                                 VALUES(?, ?, ?)
-                            ''', (timestamp, cpu_id, utilization))  
+                            ''', (timestamp, cpu_id, utilization_int))  
                             inserted_count += 1
             
             conn.commit()
@@ -119,7 +75,7 @@ class MetricsDatabase:
             return 0
         finally:
             conn.close()
-
+    
     def get_metrics(self, mode ="realtime"):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()    
@@ -133,22 +89,22 @@ class MetricsDatabase:
             elif mode == "10minutes":
                 query = """
                     SELECT strftime('%Y-%m-%d %H:', timestamp, 'unixepoch','localtime') || printf('%02d:00', (CAST(strftime('%M', timestamp, 'unixepoch','localtime') AS INTEGER) / 10) * 10) AS bucket,
-                           cpu_id, 
-                           AVG(utilization) as avg_value,
-                           COUNT(utilization) as count_value
-                    FROM cpu_metrics
-                    GROUP BY bucket, cpu_id
-                    ORDER BY bucket, cpu_id
+                        cpu_id, 
+                        AVG(utilization) as avg_value,
+                        COUNT(utilization) as count_value
+                        FROM cpu_metrics
+                        GROUP BY bucket, cpu_id
+                        ORDER BY bucket, cpu_id
                 """
             elif mode == "1hour":
                 query = """
                     SELECT strftime('%Y-%m-%d %H:00:00', timestamp, 'unixepoch','localtime') AS bucket, 
-                           cpu_id, 
-                           AVG(utilization) as avg_value,
-                           COUNT(utilization) as count_value
-                    FROM cpu_metrics
-                    GROUP BY bucket, cpu_id
-                    ORDER BY bucket, cpu_id
+                        cpu_id, 
+                        AVG(utilization) as avg_value,
+                        COUNT(utilization) as count_value
+                        FROM cpu_metrics
+                        GROUP BY bucket, cpu_id
+                        ORDER BY bucket, cpu_id
                 """
             else:
                 raise ValueError("いずれかの時間を指定してください")
@@ -158,11 +114,11 @@ class MetricsDatabase:
            
             series_data = defaultdict(list)
             if mode == "realtime":
-                for bucket_or_ts, cpu_id, utilization, in rows:
+                for bucket_or_ts, cpu_id, utilization in rows:
                     label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
                     series_data[label].append({
-                        "timestamp": bucket_or_ts,
-                        "utilization": utilization
+                    "timestamp": bucket_or_ts,
+                    "utilization": utilization
                 })
             else:
                 for bucket_or_ts, cpu_id, utilization, count_value in rows:
@@ -171,7 +127,7 @@ class MetricsDatabase:
                     series_data[label].append({
                         "timestamp": bucket_or_ts,
                         "utilization": utilization
-                    })
+                })
             return dict(series_data)
                    
         except Exception as error:
@@ -180,18 +136,3 @@ class MetricsDatabase:
         finally:
             conn.close()    
 
-db = MetricsDatabase()
-
-@app.get("/api/metrics")
-def get_metrics(mode: str ="realtime"):
-    metrics = db.get_metrics(mode)
-    return metrics
-
-@app.post("/api/metrics")
-def post_metrics(json_data: dict):
-    print(f"Inserting data: {json_data}")
-    result = db.insert_cpu_utilization(json_data)
-    if result > 0:
-        return {"status": "success", "inserted": result}
-    else:
-        return {"status": "error", "message": "データ挿入に失敗しました"}

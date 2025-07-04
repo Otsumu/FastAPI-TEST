@@ -14,20 +14,28 @@
                 <div style = "display: flex; align-items: center;  margin-bottom: 10px;">
                     <span style = "color: gray; font-size: 28px; font-weight: bold;">CPU使用率推移</span> 
                 <select id ="modeSelect" style ="color: gray; margin-left: 20px; padding: 5px 20px; font-size: 16px;">
-                    <option value="realtime">リアルタイム</option>
-                    <option value="10minutes">10分間隔</option>
-                    <option value="1hour">1時間間隔</option>
+                    <option value="realtime">REALTIME(10min)</option>
+                    <option value="10minutes">30minutes(avg)</option>
+                    <option value="1hour">1hour(avg)</option>
                 </select>
-                <select id = "timeRangeSelect" style ="color: gray; margin-left: 20px; padding: 5px 30px; font-size: 16px;">
-                    <option value="recent-10min">直近10分</option>                
-                    <option value="recent-1hour">直近1時間</option>
-                    <option value="custom">指定する</option>
+                <select id ="timeRangeSelect" style ="color: gray; margin-left: 20px; padding: 5px 30px; font-size: 16px;">
+                    <option value="recent-10min">10minutes</option>
+                    <option value="recent-30min">30minutes</option>              
+                    <option value="recent-1hour">1hour</option>
+                    <option value="1day">1day</option>
+                    <option value="custom" id="custom_selector">specifictime</option>
                 </select>
                 <div id ="customRangeInputs" style ="display : none;">
                     <input type="daytime-local" id="startTime">
                     <input type="daytime-local" id="endTime">
                     <button onclick="fetchCustomRange()">表示</button> 
                 </div>
+                <select id ="cpuSelector" style ="color: gray; margin-left: 20px; padding: 5px 30px; font-size: 16px;">
+                    <option value="cpu_number">CPU0</option>
+                    <option value="cpu_number">CPU1</option>
+                    <option value="cpu_number">CPU2</option>
+                    <option value="cpu_number">CPU3</option>
+                </select>
             </div>
             <canvas id = "cpuLoadChart" style="margin-top: 20px; padding: 10px;"></canvas>
         </div>

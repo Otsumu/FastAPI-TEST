@@ -47,15 +47,15 @@ function getTimeSettings(mode) {
                 unit: 'minute',
                 displayFormat: 'HH:mm',
                 stepSize: 10,      // 10分ごとに目盛り
-                maxTicksLimit: 20, // 3時間で約18個の目盛り
+                maxTicksLimit: 20, 
                 title: '時刻(リアルタイム)'
             };
         case '10minutes':
             return {
                 unit: 'minute',
                 displayFormat: 'HH:mm', 
-                stepSize: 20,      // 20分ごとに目盛り
-                maxTicksLimit: 10, // 3時間で9個の目盛り
+                stepSize: 30,      // 30分ごとに目盛り
+                maxTicksLimit: 6.5, 
                 title: '時刻(10分間隔)'
             };
         case '1hour':
