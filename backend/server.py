@@ -32,7 +32,7 @@ class MetricsDatabase:
             CREATE TABLE IF NOT EXISTS cpu_metrics_summary (
                 id INTEGER PRIMARY KEY,
                 bucket_timestamp INTEGER, --バケット開始時刻、集計期間の特定のために設定
-                interval_type TEXT, --'10min''1hour'等の時間の間隔指定で利用
+                interval_type INTEGER, --'10min''1hour'等の時間の間隔指定で利用
                 cpu_id INTEGER,
                 avg_utilization INTEGER,
                 max_utilization INTEGER,
