@@ -1,8 +1,6 @@
 import sqlite3
-from collections import defaultdict 
-from connection import MetricsDatabase as ConnectionDB
 
-class MetricsDatabase:
+class CreateSummary: #集計処理
     #クラス変数の定義
     INTERVAL_TYPE = {
        1: 600,   #10min
@@ -14,13 +12,13 @@ class MetricsDatabase:
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
         self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
-        conn_db = ConnectionDB()
+
     
     def create_summary_data(self, interval_type):
-        if interval_type not in MetricsDatabase.INTERVAL_TYPE:
+        if interval_type not in CreateSummary.INTERVAL_TYPE:
             raise ValueError(f"時間を選択してください: {interval_type}")
         
-        seconds = MetricsDatabase.INTERVAL_TYPE[interval_type]
+        seconds = CreateSummary.INTERVAL_TYPE[interval_type]
 
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -35,12 +33,23 @@ class MetricsDatabase:
             if not time_range or not time_range[0]:
                 print("集計データがありません")
                 return 0
-                
-            min_time, max_time = time_range
+
+            min_time, max_time = time_range    
             current_time = min_time
             while current_time <= max_time:
                 next_time = current_time + seconds
+            
+            cursor.execute("""
+                SELECT
+                    AVG(utilization) as avg_util,
+                    MAX(utilization) as max_util,
+                    MIN(utilization) as min_util,
+                    COUNT(*) as sample_count
+                FROM cpu_metrics
+                WHERE timestamp >= ? AND timestamp < ?
+            """,(current_time, next_time))
 
+            current_time += seconds
             conn.commit()
             print(f"{created_count}件のデータが作成できました")
             return created_count

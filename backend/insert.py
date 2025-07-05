@@ -1,12 +1,10 @@
 import sqlite3
 from collections import defaultdict
-from connection import MetricsDatabase as ConnectionDB
 
-class MetricsDatabase:
+class InsertMetrics: #データ挿入
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
         self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
-        conn_db = ConnectionDB()
 
     def insert_cpu_utilization(self, json_data):
         conn = sqlite3.connect(self.db_path)
