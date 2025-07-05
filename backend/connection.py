@@ -18,7 +18,7 @@ class ConnectMetrics: #データベース接続、テーブル設計
                 id INTEGER PRIMARY KEY,
                 timestamp INTEGER NOT NULL, --UNIX秒
                 cpu_id INTEGER, -- cpu_name → cpu_id に改名
-                utilization INTEGER CHECK (utilization BETWEEN 0 AND 7000) -- CPU使用率は0から70の範囲
+                utilization INTEGER
             )
        ''')
         #集計データテーブル
@@ -31,7 +31,7 @@ class ConnectMetrics: #データベース接続、テーブル設計
                 avg_utilization INTEGER,
                 max_utilization INTEGER,
                 min_utilization INTEGER,
-                sample_count INTEGER --集計対象データ数
+                sample_count INTEGER
             )                  
         ''')
         #timestampとcpu_idにindexを貼付
