@@ -1,23 +1,18 @@
 import sqlite3
 
 class CreateSummary: #集計処理
-    #クラス変数の定義
-    INTERVAL_TYPE = {
-       1: 600,   #10min
-       2: 1800,  #30min
-       3: 3600,  #1hour
-       4: 86400  #1day
-    }
+    #10分、30分、1時間、１日の時間インターバルをクラス変数で定義
+    INTERVAL_TYPE = (600, 1800, 3600, 86400)  
 
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
         self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
 
-    def create_summary_data(self, interval_type):
-        if interval_type not in CreateSummary.INTERVAL_TYPE:
-            raise ValueError(f"時間を選択してください: {interval_type}")
+    def create_summary_data(self, index):
+        if index < 0 or index >= len(CreateSummary.INTERVAL_TYPE):
+            raise ValueError(f"有効なインデックスを選択してください: {index}")
         
-        seconds = CreateSummary.INTERVAL_TYPE[interval_type]
+        seconds = CreateSummary.INTERVAL_TYPE[index]
 
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -58,7 +53,7 @@ class CreateSummary: #集計処理
                     cursor.execute("""
                     INSERT INTO cpu_metrics_summary(bucket_timestamp, interval_type, cpu_id, avg_utilization, max_utilization, min_utilization, sample_count)
                         VALUES(?, ?, ?, ?, ?, ?, ?)
-                    """, (current_time, interval_type, cpu_id , avg_util, max_util, min_util, sample_count))
+                    """, (current_time, index, cpu_id , avg_util, max_util, min_util, sample_count))
                     created_count += 1
 
                 current_time += seconds
