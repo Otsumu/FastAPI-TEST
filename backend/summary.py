@@ -57,10 +57,10 @@ class CreateSummary: #集計処理
                     created_count += 1
 
                 current_time += seconds
-            
+
             conn.commit()
             print(f"{created_count}件のデータが作成できました")
-            return created_count
+            return created_count        
         
         except Exception as error:
             print(f"予期しないエラー：{error}")
@@ -68,3 +68,5 @@ class CreateSummary: #集計処理
             return 0
         finally:
             conn.close()
+    
+    #時間別データ取得と表示 def get summary_data()の定義！
