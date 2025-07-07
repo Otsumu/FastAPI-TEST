@@ -41,6 +41,18 @@ class MetricsDatabase:
             while current_time <= max_time:
                 next_time = current_time + seconds
 
+                cursor.execute("""
+                    SELECT
+                        AVG(utilization) as avg_util,
+                        MAX(utilization) as max_util,
+                        MIN(utilization) as min_util,
+                        COUNT(*) as sample_count
+                    FROM metrics_cpu
+                    WHERE timestamp >= ? AND timestamp < ?           
+                    """,(current_time, next_time) )
+                
+                current_time += seconds
+
             conn.commit()
             print(f"{created_count}件のデータが作成できました")
             return created_count
