@@ -22,7 +22,7 @@ function processCpuData(data, mode) {
     //10の倍数に切り上げてグラフの見た目を良くする
     const maxUsage = Math.max(...Object.values(cpuData).flat().map(data => data.y));
     const suggestedMax = Math.ceil(maxUsage / 10) * 10;
-    
+
     return { cpuData, suggestedMax };
 }
 
@@ -165,10 +165,10 @@ function createCpuUsageChart(data, mode = 'realtime') {
                         font: {
                             size: 15
                         }
-                    }
+                    },
                 }
             }
-        }
+        }    
     });
 }
 
