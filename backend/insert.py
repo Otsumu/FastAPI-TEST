@@ -54,7 +54,7 @@ class InsertMetrics: #データ挿入
                                 timestamp = None
                         # CPU使用率の計算
                         utilization = (1 - idle_rate) * 100
-                        utilization_int = int(utilization * 100)
+                        utilization_int = int(utilization)
 
                         if cpu_id is not None and timestamp is not None:
                             cursor.execute('''
