@@ -70,3 +70,17 @@ class CreateSummary: #集計処理
             conn.close()
     
     #時間別データ取得と表示 def get summary_data()の定義！
+    def get_summary_data(self, start_timestamp, end_timestamp, cpu_id= None):
+        query = """
+        SELECT bucket_timestamp, cpu_id, avg_utilization, max_utilization, min_utilization, sample_count
+        FROM cpu_metrics_summary
+        WHERE bucket_timestamp BETWEEN ? AND ?
+        """
+        params = [start_timestamp, end_timestamp]
+
+        if cpu_id:
+            query += " AND cpu_id = ?"
+            params.append(cpu_id)
+
+        query += " ORDER BY bucket_timestamp"
+        return self.cursor.execute(query, params).fetchall() 
