@@ -3,7 +3,7 @@ import sqlite3
 DATABASE_PATH = "../data/metrics.db"
 CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
 
-class MetricsDatabase:
+class ConnectMetrics: #データベース接続、テーブル設計
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
         self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
@@ -18,7 +18,7 @@ class MetricsDatabase:
                 id INTEGER PRIMARY KEY,
                 timestamp INTEGER NOT NULL, --UNIX秒
                 cpu_id INTEGER, -- cpu_name → cpu_id に改名
-                utilization INTEGER CHECK (utilization BETWEEN 0 AND 7000) -- CPU使用率は0から70の範囲
+                utilization INTEGER
             )
        ''')
         #集計データテーブル
@@ -31,7 +31,7 @@ class MetricsDatabase:
                 avg_utilization INTEGER,
                 max_utilization INTEGER,
                 min_utilization INTEGER,
-                sample_count INTEGER --集計対象データ数
+                sample_count INTEGER
             )                  
         ''')
         #timestampとcpu_idにindexを貼付

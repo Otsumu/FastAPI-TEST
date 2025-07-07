@@ -183,7 +183,6 @@ async function modeChange(mode) {
         console.error('モード変更エラー:', error);
     }
 }
-
 document.addEventListener('DOMContentLoaded', function() {
     // 初期データ読み込み
     loadMetricsData().then(data => {
