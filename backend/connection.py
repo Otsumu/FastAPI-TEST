@@ -1,12 +1,12 @@
 import sqlite3
 
 DATABASE_PATH = "../data/metrics.db"
-CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
+CPU_NUMBERS = {i: f'cpu{i}' for i in range(16)}
 
 class ConnectMetrics: #データベース接続、テーブル設計
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
-        self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
+        self.CPU_NUMBERS = {i: f'cpu{i}' for i in range(16)}
         self.init_database()
 
     def init_database(self):

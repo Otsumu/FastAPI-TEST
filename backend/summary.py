@@ -6,7 +6,9 @@ class CreateSummary: #集計処理
 
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
-        #self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
+        self.conn.row_factory = sqlite3.Row
+        #CPU0,1,2,3の４つだけなのでこのクラスではこの定義は無視！
+        #self.CPU_NUMBERS = {i: f'cpu{i}' for i in range(16)}
 
     def create_summary_data(self, index):
         if index < 0 or index >= len(CreateSummary.INTERVAL_TYPE):
@@ -29,9 +31,7 @@ class CreateSummary: #集計処理
             
             min_time, max_time = time_range    
             cursor.execute("SELECT DISTINCT cpu_id FROM cpu_metrics ORDER BY cpu_id")
-            exsiting_cpu_ids = []
-            for row in cursor.fetchall():
-                exsiting_cpu_ids.append(row[0])
+            exsiting_cpu_ids = [row[0] for row in cursor.fetchall()]
             current_time = min_time
             while current_time <= max_time:
                 next_time = current_time + seconds

@@ -4,7 +4,7 @@ from collections import defaultdict
 class InsertMetrics: #データ挿入
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
-        self.CPU_LABELS = {i: f'cpu{i}' for i in range(16)}
+        self.CPU_NUMBERS = {i: f'cpu{i}' for i in range(16)}
 
     def insert_cpu_utilization(self, json_data):
         conn = sqlite3.connect(self.db_path)
@@ -113,7 +113,7 @@ class InsertMetrics: #データ挿入
             series_data = defaultdict(list)
             if mode == "realtime":
                 for bucket_or_ts, cpu_id, utilization in rows:
-                    label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
+                    label = self.CPU_NUMBERS.get(cpu_id, f'cpu{cpu_id}')
                     series_data[label].append({
                     "timestamp": bucket_or_ts,
                     "utilization": utilization
@@ -121,7 +121,7 @@ class InsertMetrics: #データ挿入
             else:
                 for bucket_or_ts, cpu_id, utilization, count_value in rows:
                     print(f"COUNT : {count_value}")
-                    label = self.CPU_LABELS.get(cpu_id, f'cpu{cpu_id}')
+                    label = self.CPU_NUMBERS.get(cpu_id, f'cpu{cpu_id}')
                     series_data[label].append({
                         "timestamp": bucket_or_ts,
                         "utilization": utilization
