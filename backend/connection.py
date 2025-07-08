@@ -14,7 +14,7 @@ class ConnectMetrics: #データベース接続、テーブル設計
         cursor = conn.cursor()
         #生データテーブル
         cursor.execute ('''
-            CREATE TABLE IF NOT EXISTS cpu_metrics (
+            CREATE TABLE IF NOT EXISTS cpu_load (
                 id INTEGER PRIMARY KEY,
                 timestamp INTEGER NOT NULL, --UNIX秒
                 cpu_id INTEGER, -- cpu_name → cpu_id に改名
@@ -23,7 +23,7 @@ class ConnectMetrics: #データベース接続、テーブル設計
        ''')
         #集計データテーブル
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS cpu_metrics_summary (
+            CREATE TABLE IF NOT EXISTS cpu_load_summary (
                 id INTEGER PRIMARY KEY,
                 bucket_timestamp INTEGER, --バケット開始時刻、集計期間の特定のために設定
                 interval_type INTEGER, --'10min''1hour'等の時間の間隔指定で利用
@@ -36,11 +36,11 @@ class ConnectMetrics: #データベース接続、テーブル設計
         ''')
         #timestampとcpu_idにindexを貼付
         cursor.execute('''
-            CREATE INDEX IF NOT EXISTS index_ts_cpuid ON cpu_metrics(timestamp,cpu_id);            
+            CREATE INDEX IF NOT EXISTS index_ts_cpuid ON cpu_load(timestamp,cpu_id);            
         ''')
         #bucket or timestampとinterval_time、cpu_idにindexを貼付
         cursor.execute('''
-            CREATE INDEX IF NOT EXISTS index_bucket_type_cpu_id ON cpu_metrics_summary(bucket_timestamp,interval_type,cpu_id);           
+            CREATE INDEX IF NOT EXISTS index_bucket_type_cpu_id ON cpu_load_summary(bucket_timestamp,interval_type,cpu_id);           
         ''')
     
         conn.commit()

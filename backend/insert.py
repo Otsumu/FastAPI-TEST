@@ -58,7 +58,7 @@ class InsertMetrics: #データ挿入
 
                         if cpu_id is not None and timestamp is not None:
                             cursor.execute('''
-                                INSERT INTO cpu_metrics(timestamp, cpu_id, utilization)
+                                INSERT INTO cpu_load(timestamp, cpu_id, utilization)
                                 VALUES(?, ?, ?)
                             ''', (timestamp, cpu_id, utilization_int))  
                             inserted_count += 1
@@ -81,7 +81,7 @@ class InsertMetrics: #データ挿入
             if mode == "realtime":
                 query = """
                     SELECT timestamp, cpu_id, utilization 
-                    FROM cpu_metrics 
+                    FROM cpu_load 
                     ORDER BY timestamp, cpu_id
                 """
             elif mode == "10minutes":
@@ -90,7 +90,7 @@ class InsertMetrics: #データ挿入
                         cpu_id, 
                         AVG(utilization) as avg_value,
                         COUNT(utilization) as count_value
-                        FROM cpu_metrics
+                        FROM cpu_load
                         GROUP BY bucket, cpu_id
                         ORDER BY bucket, cpu_id
                 """
@@ -100,7 +100,7 @@ class InsertMetrics: #データ挿入
                         cpu_id, 
                         AVG(utilization) as avg_value,
                         COUNT(utilization) as count_value
-                        FROM cpu_metrics
+                        FROM cpu_load
                         GROUP BY bucket, cpu_id
                         ORDER BY bucket, cpu_id
                 """

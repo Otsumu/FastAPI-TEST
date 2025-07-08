@@ -22,7 +22,7 @@ class CreateSummary: #集計処理
         try:
             cursor.execute("""
                 SELECT MIN(timestamp) as min_time, MAX(timestamp) as max_time
-                            FROM cpu_metrics
+                            FROM cpu_load
                 """)
             time_range = cursor.fetchone() #fetchone()での返り値はtuple！
             if not time_range or not time_range[0]:
@@ -30,7 +30,7 @@ class CreateSummary: #集計処理
                 return 0
             
             min_time, max_time = time_range    
-            cursor.execute("SELECT DISTINCT cpu_id FROM cpu_metrics ORDER BY cpu_id")
+            cursor.execute("SELECT DISTINCT cpu_id FROM cpu_load ORDER BY cpu_id")
             exsiting_cpu_ids = [row[0] for row in cursor.fetchall()]
             current_time = min_time
             while current_time <= max_time:
@@ -43,7 +43,7 @@ class CreateSummary: #集計処理
                         MAX(utilization) as max_util,
                         MIN(utilization) as min_util,
                         COUNT(*) as sample_count
-                    FROM cpu_metrics
+                    FROM cpu_load
                     WHERE timestamp >= ? AND timestamp < ? AND cpu_id = ?
                         """,(current_time, next_time, cpu_id))
 
@@ -54,7 +54,7 @@ class CreateSummary: #集計処理
                     sample_count = int(result[3]) if result[3] is not None else 0
 
                     cursor.execute("""
-                    INSERT INTO cpu_metrics_summary(bucket_timestamp, interval_type, cpu_id, avg_utilization, max_utilization, min_utilization, sample_count)
+                    INSERT INTO cpu_load_summary(bucket_timestamp, interval_type, cpu_id, avg_utilization, max_utilization, min_utilization, sample_count)
                         VALUES(?, ?, ?, ?, ?, ?, ?)
                     """, (current_time, index, cpu_id , avg_util, max_util, min_util, sample_count))
                     created_count += 1
@@ -67,7 +67,7 @@ class CreateSummary: #集計処理
                         MAX(utilization) as max_util,
                         MIN(utilization) as min_util,
                         COUNT(*) as sample_count
-                    FROM cpu_metrics
+                    FROM cpu_load
                     WHERE timestamp >= ? AND timestamp < ?           
                     """,(current_time, next_time) )
                 
@@ -89,7 +89,7 @@ class CreateSummary: #集計処理
     def get_summary_data(self, start_timestamp, end_timestamp, cpu_id= None): 
         query = """
             SELECT bucket_timestamp, cpu_id, avg_utilization, max_utilization, min_utilization, sample_count
-            FROM cpu_metrics_summary
+            FROM cpu_load_summary
             WHERE bucket_timestamp BETWEEN ? AND ?
         """
         params = [start_timestamp, end_timestamp]
