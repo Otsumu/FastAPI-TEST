@@ -4,10 +4,9 @@ class CreateSummary: #集計処理
     #10分、30分、1時間、１日の時間インターバルをクラス変数で定義
     INTERVAL_TYPE = (600, 1800, 3600, 86400)  
 
+    #CPU0,1,2,3の４つだけなのでこのクラスではこの定義は無視！
     def __init__(self, db_path: str="../data/metrics.db"):
         self.db_path = db_path
-        self.conn.row_factory = sqlite3.Row
-        #CPU0,1,2,3の４つだけなのでこのクラスではこの定義は無視！
         #self.CPU_NUMBERS = {i: f'cpu{i}' for i in range(16)}
 
     def create_summary_data(self, index):
@@ -59,18 +58,6 @@ class CreateSummary: #集計処理
                     """, (current_time, index, cpu_id , avg_util, max_util, min_util, sample_count))
                     created_count += 1
 
-                current_time += seconds
-
-                cursor.execute("""
-                    SELECT
-                        AVG(utilization) as avg_util,
-                        MAX(utilization) as max_util,
-                        MIN(utilization) as min_util,
-                        COUNT(*) as sample_count
-                    FROM cpu_load
-                    WHERE timestamp >= ? AND timestamp < ?           
-                    """,(current_time, next_time) )
-                
                 current_time += seconds
 
             conn.commit()
