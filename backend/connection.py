@@ -35,9 +35,10 @@ class ConnectMetrics: #データベース接続、テーブル設計
             )                  
         ''')
         #timestampとcpu_idにindexを貼付
-        cursor.execute('''
-            CREATE INDEX IF NOT EXISTS index_ts_cpuid ON cpu_load(timestamp,cpu_id);            
-        ''')
+        #cursor.execute('''
+            #CREATE INDEX IF NOT EXISTS index_ts_cpuid ON cpu_load(timestamp,cpu_id);            
+        #''')
+        
         #bucket or timestampとinterval_time、cpu_idにindexを貼付
         cursor.execute('''
             CREATE INDEX IF NOT EXISTS index_bucket_type_cpu_id ON cpu_load_summary(bucket_timestamp,interval_type,cpu_id);           
