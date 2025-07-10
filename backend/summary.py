@@ -74,6 +74,9 @@ class CreateSummary: #集計処理
     #時間別、CPU別データの取得と表示をdef get summary_data()で定義！
     #cpu_id=NoneはCPU別データ取得時に使用するためのパラメータ
     def get_summary_data(self, start_timestamp, end_timestamp, cpu_id= None): 
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+        conn.row_factory = sqlite3.Row
         query = """
             SELECT bucket_timestamp, cpu_id, avg_utilization, max_utilization, min_utilization, sample_count
             FROM cpu_load_summary
@@ -87,3 +90,28 @@ class CreateSummary: #集計処理
 
         query += " ORDER BY bucket_timestamp"
         return self.cursor.execute(query, params).fetchall() 
+    
+    def check_database():
+        conn = sqlite3.conn("db_path")
+        cursor = conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='cpu_load_summary'")
+        table_exists = cursor.fetchone()
+        print(f"テーブル存在確認：{table_exists}")
+
+        if table_exists:
+            cursor.execute("SELECT COUNT(*) FROM cpu_load_summary")
+            count = cursor.fetchone()[0]
+            print(f"データ件数：{count}")
+
+            cursor.execute("SELECT MIN(bucket_timestamp), MAX(bucket_timestamp) FROM cpu_load_summary")
+            time_range = cursor.fetchone()
+            print(f"データ時間範囲：{time_range}")
+
+            cursor.execute("SELECT DISTINCT cpu_id  FROM cpu_load_summary ORDER BY cpu_id")
+            cpu_ids = [row[0] for row in cursor.fetchall()]
+            print(f"CPU_IDs: {cpu_ids}")
+
+            conn.close()
+    check_database()
+
+
