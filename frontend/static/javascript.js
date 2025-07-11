@@ -10,7 +10,7 @@ async function loadMetricsData(mode ="realtime") {
     }
 }
 
-// 共通のデータ処理関数
+//共通のデータ処理関数
 function processCpuData(data, mode) {
     const cpuData = {};
     Object.keys(data).forEach(cpuName => {
@@ -25,6 +25,8 @@ function processCpuData(data, mode) {
 
     return { cpuData, suggestedMax };
 }
+
+//加工処理データのコードをここに書く！
 
 //cpuのグラフ色生成
 function cpuColor(index) {
@@ -68,11 +70,11 @@ function getTimeSettings(mode) {
             };
         default:
             return {
-                unit: 'minute',
+                unit: 'hour',
                 displayFormat: 'HH:mm',
-                stepSize: 10,
-                maxTicksLimit: 20,
-                title: '時刻'
+                stepSize: 1,
+                maxTicksLimit: 4,
+                title: '時刻(1日間隔)'
             };
     }
 }
