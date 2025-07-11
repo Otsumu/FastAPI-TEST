@@ -84,7 +84,7 @@ class CreateSummary: #集計処理
         """
         params = [start_timestamp, end_timestamp]
 
-        if cpu_id:
+        if cpu_id is not None:
             query += " AND cpu_id = ?"
             params.append(cpu_id)
 
