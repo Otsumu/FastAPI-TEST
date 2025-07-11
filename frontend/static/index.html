@@ -15,20 +15,15 @@
                     <span style = "color: gray; font-size: 28px; font-weight: bold;">CPU使用率推移</span> 
                 <select id ="modeSelect" style ="color: gray; margin-left: 20px; padding: 5px 20px; font-size: 16px;">
                     <option value="realtime">REALTIME(10min)</option>
-                    <option value="10minutes">30minutes(avg)</option>
-                    <option value="1hour">1hour(avg)</option>
-                </select>
-                <select id ="timeRangeSelect" style ="color: gray; margin-left: 20px; padding: 5px 30px; font-size: 16px;">
-                    <option value="recent-10min">10minutes</option>
-                    <option value="recent-30min">30minutes</option>              
-                    <option value="recent-1hour">1hour</option>
+                    <option value="10minutes">30minutes</option>
+                    <option value="1hour">1hour</option>
                     <option value="1day">1day</option>
                     <option value="custom" id="custom_selector">specifictime</option>
                 </select>
-                <div id ="customRangeInputs" style ="display : none;">
+                <div id ="customRangeInputs" style ="display : none;"> <!-- specifictimeボタンクリックで時間選択ボタン出現！ -->
                     <input type="daytime-local" id="startTime">
                     <input type="daytime-local" id="endTime">
-                    <button onclick="fetchCustomRange()">表示</button> <!-- ボタンクリックでユーザー指定範囲のデータに切り替える -->
+                    <button onclick="fetchCustomRange()">表示</button> 
                 </div>
                 <select id ="cpuSelector" style ="color: gray; margin-left: 20px; padding: 5px 30px; font-size: 16px;">
                     <option value="cpu_number">CPU0</option>
