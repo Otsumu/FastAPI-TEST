@@ -75,7 +75,7 @@ class CreateSummary: #集計処理
     #cpu_id=NoneはCPU別データ取得時に使用するためのパラメータ
     def get_summary_data(self, start_timestamp, end_timestamp, cpu_id= None): 
         conn = sqlite3.connect(self.db_path)
-        conn.row_factory = sqlite3.Row # Row_factoryを設定して、行をアクセスできるようにする
+        conn.row_factory = sqlite3.Row # Row_factoryを設定して、列名をキーに値にアクセス！
         cursor = conn.cursor()
         query = """
             SELECT bucket_timestamp, cpu_id, avg_utilization, max_utilization, min_utilization, sample_count
