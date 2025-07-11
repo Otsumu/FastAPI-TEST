@@ -84,26 +84,6 @@ class InsertMetrics: #データ挿入
                     FROM cpu_load 
                     ORDER BY timestamp, cpu_id
                 """
-            elif mode == "10minutes":
-                query = """
-                    SELECT strftime('%Y-%m-%d %H:', timestamp, 'unixepoch','localtime') || printf('%02d:00', (CAST(strftime('%M', timestamp, 'unixepoch','localtime') AS INTEGER) / 10) * 10) AS bucket,
-                        cpu_id, 
-                        AVG(utilization) as avg_value,
-                        COUNT(utilization) as count_value
-                        FROM cpu_load
-                        GROUP BY bucket, cpu_id
-                        ORDER BY bucket, cpu_id
-                """
-            elif mode == "1hour":
-                query = """
-                    SELECT strftime('%Y-%m-%d %H:00:00', timestamp, 'unixepoch','localtime') AS bucket, 
-                        cpu_id, 
-                        AVG(utilization) as avg_value,
-                        COUNT(utilization) as count_value
-                        FROM cpu_load
-                        GROUP BY bucket, cpu_id
-                        ORDER BY bucket, cpu_id
-                """
             else:
                 raise ValueError("いずれかの時間を指定してください")
             
