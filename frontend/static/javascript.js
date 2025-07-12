@@ -26,7 +26,35 @@ function processCpuData(data, mode) {
     return { cpuData, suggestedMax };
 }
 
-//加工処理データのコードをここに書く！
+//集計データを取得する関数定義
+async function loadSummaryData(mode) {
+    try {
+        const timeRange = calculateTimeRange(mode);
+        const response = await fetch(`/api/summary?start_timestamp=${timeRange.start}&end_timestamp=${timeRange.end}`);
+        const data = await response.json()
+        return data;
+    }
+    catch (error) {
+        console.error('データ取得エラー:', error);
+        return null;  
+    }
+}
+//calculateTimeRange() → {start: 時刻, end: 時刻}オブジェクトを返す
+function calculateTimeRange(mode) {
+    const now = Math.floor(Date.now() / 1000); //1ミリ秒 = 1/1000秒
+    let duration = 0;     //duration＝間隔、期間
+    if (mode === "30minutes") {
+        duration = 1800;
+    } else if (mode === "1hour") { 
+        duration = 3600;
+    } else if (mode ==="1day") {
+        duration = 86400;
+    }
+    return {
+        start: now - duration,
+        end:  now
+    };
+}
 
 //cpuのグラフ色生成
 function cpuColor(index) {
