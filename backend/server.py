@@ -31,7 +31,8 @@ def post_metrics(json_data: dict):
 # cpu_idが整数またはNoneであることを示すためのFastAPIの型ヒント、
 # cpu_idが指定されない場合、Noneがデフォルト値として使用される、全てのCPUの集計データが返される
 @app.get("/api/summary")
-def get_summary_data(start_timestamp: int, end_timestamp: int, cpu_id: int = None):
+def get_summary_data(start_timestamp: int, end_timestamp: int, 
+                     cpu_id: Optional[int] = None, interval_type: Optional[int] = None):
     summary_data = summary_db.get_summary_data(start_timestamp, end_timestamp, cpu_id)
     return summary_data
 

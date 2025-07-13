@@ -73,7 +73,7 @@ class CreateSummary: #集計処理
     
     #時間別、CPU別データの取得と表示をdef get summary_data()で定義！
     #cpu_id=NoneはCPU別データ取得時に使用するためのパラメータ
-    def get_summary_data(self, start_timestamp, end_timestamp, cpu_id= None): 
+    def get_summary_data(self, start_timestamp, end_timestamp, cpu_id= None, interval_type= None): 
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row # Row_factoryを設定して、列名をキーに値にアクセス！
         cursor = conn.cursor()
@@ -87,6 +87,10 @@ class CreateSummary: #集計処理
         if cpu_id is not None:
             query += " AND cpu_id = ?"
             params.append(cpu_id)
+
+        if interval_type is not None:
+            query += " AND interval_type = ?"
+            params.append(interval_type)
 
         query += " ORDER BY bucket_timestamp"
         return cursor.execute(query, params).fetchall() 
