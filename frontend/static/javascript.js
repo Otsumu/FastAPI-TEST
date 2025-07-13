@@ -41,7 +41,7 @@ async function loadSummaryData(mode) {
 }
 //calculateTimeRange() → {start: 時刻, end: 時刻}オブジェクトを返す
 function calculateTimeRange(mode) {
-    const now = Math.floor(Date.now() / 1000); //1ミリ秒 = 1/1000秒
+    const now = Math.floor(Date.now() / 1000); //1ミリ秒 = 1/1000秒、時刻は小数点以下切り捨て！
     let duration = 0;     //duration＝間隔、期間
     if (mode === "30minutes") {
         duration = 1800;
@@ -80,7 +80,7 @@ function getTimeSettings(mode) {
                 maxTicksLimit: 20, 
                 title: '時刻(リアルタイム)'
             };
-        case '10minutes':
+        case '30minutes':
             return {
                 unit: 'minute',
                 displayFormat: 'HH:mm', 
@@ -202,13 +202,16 @@ function createCpuUsageChart(data, mode = 'realtime') {
     });
 }
 
-// モード変更時の処理
+// 時間間隔モード変更時の処理＆そのグラフの生成
 async function modeChange(mode) {
     try {        
-        const data = await loadMetricsData(mode);
-        if (data) {
+        if (mode === "realtime") {
+            const data = await loadMetricsData(mode);
             createCpuUsageChart(data, mode);
-        }
+        } else  {
+            const data = await loadSummaryData(mode);
+            createCpuUsageChart(data, mode);
+        } 
     } catch (error) {
         console.error('モード変更エラー:', error);
     }
