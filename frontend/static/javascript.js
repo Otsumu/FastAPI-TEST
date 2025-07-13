@@ -2,6 +2,15 @@
 async function loadMetricsData(mode ="realtime") {
     try {
         const response = await fetch(`/api/metrics?mode=${mode}`);
+        let interval_type;
+        if(mode === "30minutes") {
+            interval_type = 1;
+        } else if (mode === "1hour") {
+            interval_type = 2;            
+        } else if (mode === "1day") {
+            interval_type = 3;
+        }
+        
         const data  = await response.json();
         return data;
     } catch (error) {
@@ -61,7 +70,7 @@ function processCpuData(data, mode) {
 async function loadSummaryData(mode) {
     try {
         const timeRange = calculateTimeRange(mode);
-        const response = await fetch(`/api/summary?start_timestamp=${timeRange.start}&end_timestamp=${timeRange.end}`);
+        const response = await fetch(`/api/summary?start_timestamp=${timeRange.start}&end_timestamp=${timeRange.end}&interval_type=${interval_type}`);
         const data = await response.json()
         return data;
     }
@@ -72,7 +81,7 @@ async function loadSummaryData(mode) {
 }
 //calculateTimeRange() → {start: 時刻, end: 時刻}オブジェクトを返す
 function calculateTimeRange(mode) {
-    const now = Math.floor(Date.now() / 1000); //1ミリ秒 = 1/1000秒、時刻は小数点以下切り捨て！
+    const dataEndTime = 1750933581;
     let duration = 0;     //duration＝間隔、期間
     if (mode === "30minutes") {
         duration = 1800;
@@ -82,8 +91,8 @@ function calculateTimeRange(mode) {
         duration = 86400;
     }
     return {
-        start: now - duration,
-        end:  now
+        start: dataEndTime - duration,
+        end:  dataEndTime
     };
 }
 
@@ -91,12 +100,11 @@ function calculateTimeRange(mode) {
 function createCpuUsageChart(data, mode = 'realtime') {
     //2次元描画モードのグラフを作成
     const context = document.getElementById('cpuLoadChart').getContext('2d');
-    //processCpuData()呼び出し
-    if (mode === "realtime") {
-        const { cpuData, suggestedMax } = processCpuData(data, mode);
-    } else {
-        const { cpuData, suggestedMax } = processSummaryData(data, mode);
-    }   
+    //processCpuData()とprocessSummaryData()の呼び出し
+    const {cpuData, suggestedMax} = mode === "realtime"
+        ? processCpuData(data, mode) 
+        : processSummaryData(data , mode); 
+
     const timeSettings = getTimeSettings(mode);
     
     // chart.jsのデータを作成
@@ -239,7 +247,7 @@ function getTimeSettings(mode) {
                 displayFormat: 'HH:mm', 
                 stepSize: 30,      // 30分ごとに目盛り
                 maxTicksLimit: 6.5, 
-                title: '時刻(10分間隔)'
+                title: '時刻(30分間隔)'
             };
         case '1hour':
             return {
