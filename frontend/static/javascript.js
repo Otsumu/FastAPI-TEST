@@ -94,14 +94,22 @@ async function loadSummaryData(mode) {
 function calculateTimeRange(mode) {
     const dataStartTime = 1750922781;
     const dataEndTime = 1750933581;
-    //let duration = 0;     //duration＝間隔、期間
-    //if (mode === "30minutes") {
-    //    duration = 1800;
-    //} else if (mode === "1hour") { 
-    //    duration = 3600;
-    //} else if (mode ==="1day") {
-    //    duration = 86400;
-    //}
+    if (mode === "30minutes") {
+        return {
+            start: dataStartTime,
+            end: dataEndTime
+        };
+    } else if (mode === "1hour") {
+        return {
+            start: dataStartTime - (12 * 3600),
+            end: dataEndTime 
+        };
+    } else if (mode === "1day") {
+        return {
+            start: dataStartTime - (7 * 24 * 3600),
+            end: dataEndTime  
+        };
+    }
     return {
         start: dataStartTime,
         end:  dataEndTime
@@ -265,16 +273,16 @@ function getTimeSettings(mode) {
             return {
                 unit: 'hour',
                 displayFormat: 'HH:mm',
-                stepSize: 1,       // 1時間ごとに目盛り
-                maxTicksLimit: 4,  // 3時間で4個の目盛り（0,1,2,3時間）
+                stepSize: 2,       // 1時間ごとに目盛り
+                maxTicksLimit: 6,  // 3時間で4個の目盛り（0,1,2,3時間）
                 title: '時刻(1時間間隔)'
             };
         default:
             return {
-                unit: 'hour',
-                displayFormat: 'HH:mm',
+                unit: 'day',
+                displayFormat: 'MM-dd',
                 stepSize: 1,
-                maxTicksLimit: 4,
+                maxTicksLimit: 7, // 1週間で7個の目盛り
                 title: '時刻(1日間隔)'
             };
     }
