@@ -21,15 +21,15 @@
                     <option value="custom" id="custom_selector">specifictime</option>
                 </select>
                 <div id ="customRangeInputs" style ="display : none;"> <!-- specifictimeボタンクリックで時間選択ボタン出現！ -->
-                    <input type="daytime-local" id="startTime">
-                    <input type="daytime-local" id="endTime">
+                    <input type="datetime-local" id="startTime">
+                    <input type="datetime-local" id="endTime">
                     <button onclick="fetchCustomRange()">表示</button> 
                 </div>
                 <select id ="cpuSelector" style ="color: gray; margin-left: 20px; padding: 5px 30px; font-size: 16px;">
-                    <option value="cpu_number">CPU0</option>
-                    <option value="cpu_number">CPU1</option>
-                    <option value="cpu_number">CPU2</option>
-                    <option value="cpu_number">CPU3</option>
+                    <option value="0">CPU0</option>
+                    <option value="1">CPU1</option>
+                    <option value="2">CPU2</option>
+                    <option value="3">CPU3</option>
                 </select>
             </div>
             <canvas id = "cpuLoadChart" style="margin-top: 20px; padding: 10px;"></canvas>
