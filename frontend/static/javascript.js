@@ -1,19 +1,11 @@
 //APIからデータを取得
-async function loadMetricsData(mode ="realtime") {
+async function loadMetricsData(mode = "realtime") {
     try {
         const response = await fetch(`/api/metrics?mode=${mode}`);
-        let interval_type;
-        if(mode === "30minutes") {
-            interval_type = 1;
-        } else if (mode === "1hour") {
-            interval_type = 2;            
-        } else if (mode === "1day") {
-            interval_type = 3;
-        }
-        
         const data  = await response.json();
         return data;
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('データ取得エラー:', error);
         return null;            
     }
@@ -66,12 +58,31 @@ function processCpuData(data, mode) {
     return { cpuData, suggestedMax };
 }
 
-//集計データを取得する関数定義
+//集計データを取得する関数
 async function loadSummaryData(mode) {
     try {
         const timeRange = calculateTimeRange(mode);
+        let interval_type;
+        if (mode === "30minutes") {
+            interval_type = 1;
+        } else if (mode === "1hour") {
+            interval_type = 2;
+        } else if (mode === "1day") {
+            interval_type = 3;
+        }
+
+        console.log("=== loadSummaryData デバッグ ===");
+        console.log("mode:", mode, "interval_type:", interval_type);
+        
+        const url = `/api/summary?start_timestamp=${timeRange.start}&end_timestamp=${timeRange.end}&interval_type=${interval_type}`;
+        console.log("リクエストURL:", url);
+
         const response = await fetch(`/api/summary?start_timestamp=${timeRange.start}&end_timestamp=${timeRange.end}&interval_type=${interval_type}`);
         const data = await response.json()
+
+        console.log("取得データ件数:", data.length);
+        console.log("データ例:", data.slice(0, 2));
+
         return data;
     }
     catch (error) {
@@ -81,17 +92,18 @@ async function loadSummaryData(mode) {
 }
 //calculateTimeRange() → {start: 時刻, end: 時刻}オブジェクトを返す
 function calculateTimeRange(mode) {
+    const dataStartTime = 1750922781;
     const dataEndTime = 1750933581;
-    let duration = 0;     //duration＝間隔、期間
-    if (mode === "30minutes") {
-        duration = 1800;
-    } else if (mode === "1hour") { 
-        duration = 3600;
-    } else if (mode ==="1day") {
-        duration = 86400;
-    }
+    //let duration = 0;     //duration＝間隔、期間
+    //if (mode === "30minutes") {
+    //    duration = 1800;
+    //} else if (mode === "1hour") { 
+    //    duration = 3600;
+    //} else if (mode ==="1day") {
+    //    duration = 86400;
+    //}
     return {
-        start: dataEndTime - duration,
+        start: dataStartTime,
         end:  dataEndTime
     };
 }
@@ -245,8 +257,8 @@ function getTimeSettings(mode) {
             return {
                 unit: 'minute',
                 displayFormat: 'HH:mm', 
-                stepSize: 30,      // 30分ごとに目盛り
-                maxTicksLimit: 6.5, 
+                stepSize: 15,
+                maxTicksLimit: 6, 
                 title: '時刻(30分間隔)'
             };
         case '1hour':
