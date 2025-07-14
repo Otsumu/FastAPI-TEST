@@ -33,7 +33,10 @@ def post_metrics(json_data: dict):
 @app.get("/api/summary")
 def get_summary_data(start_timestamp: int, end_timestamp: int, 
                      cpu_id: Optional[int] = None, interval_type: Optional[int] = None):
-    summary_data = summary_db.get_summary_data(start_timestamp, end_timestamp, cpu_id)
+    print(f"=== API呼び出し ===")
+    print(f"interval_type: {interval_type}")
+    summary_data = summary_db.get_summary_data(start_timestamp, end_timestamp, cpu_id, interval_type)
+    print(f"取得件数: {len(summary_data)}")
     return summary_data
 
 @app.post("/api/summary")
