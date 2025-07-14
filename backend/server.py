@@ -35,12 +35,32 @@ def post_metrics(json_data: dict):
 @app.get("/api/summary")
 def get_summary_data(start_timestamp: int, end_timestamp: int, 
                      cpu_id: Optional[int] = None, interval_type: Optional[int] = None):
-    """集計加工データの取得"""
-    print(f"=== API呼び出し ===")
-    print(f"interval_type: {interval_type}")
-    summary_data = summary_db.get_summary_data(start_timestamp, end_timestamp, cpu_id, interval_type)
-    print(f"取得件数: {len(summary_data)}")
-    return summary_data
+    """集計加工ダミーデータの取得"""
+    import random   # ダミーデータ生成用
+    dummy_data = []
+    points_count = 10
+    interval = (end_timestamp - start_timestamp) // (points_count - 1)
+    for i in range(points_count):
+        current_time = start_timestamp + (i * interval)
+        for cpu_id in range(4):
+            base = 25 + (cpu_id * 5)
+            variation = random.randint(-15, 15)
+            utilization = base + variation + (i + 1.5)
+
+            dummy_data.append({
+                "bucket_timestamp": current_time,           
+                "cpu_id": cpu_id,                        
+                "avg_utilization": max(20, min(70, int(utilization))), 
+                "sample_count": random.randint(1, 20),
+            }) 
+    return dummy_data
+
+    #print(f"=== API呼び出し ===")
+    #print(f"interval_type: {interval_type}")
+    #summary_data = summary_db.get_summary_data(start_timestamp, end_timestamp, cpu_id, interval_type)
+    #print(f"取得件数: {len(summary_data)}")
+    
+    #return summary_data
 
 @app.post("/api/summary")
 def create_summary(seconds: int = 600, index: int = 0):
