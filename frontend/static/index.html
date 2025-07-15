@@ -20,12 +20,14 @@
                     <option value="1day">1day</option>
                     <option value="custom" id="custom_selector">specifictime</option>
                 </select>
-                <div id ="customRangeInputs" style ="display : none;"> <!-- specifictimeボタンクリックで時間選択ボタン出現！ -->
-                    <input type="datetime-local" id="startTime">
-                    <input type="datetime-local" id="endTime">
-                    <button onclick="fetchCustomRange()">表示</button> 
+                <div id ="customRangeInputs" style ="display: none; text-align: right;"> <!-- specifictimeボタンクリックで時間選択ボタン出現！ -->
+                    <div class ="selectCalendar">指定時間の入力
+                        <input type="datetime-local" id="startTime">
+                        <input type="datetime-local" id="endTime">
+                        <button id="fetchButton" onclick="fetchCustomRange()">表示</button>
+                    </div>
                 </div>
-                <select id ="cpuSelector" style ="color: gray; margin-left: 20px; padding: 5px 30px; font-size: 16px;">
+                <select id ="cpuSelector" style ="color: gray; margin-left: 5px; padding: 5px 40px; font-size: 16px;">
                     <option value="0">CPU0</option>
                     <option value="1">CPU1</option>
                     <option value="2">CPU2</option>
