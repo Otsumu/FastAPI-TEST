@@ -35,23 +35,23 @@ document.addEventListener('DOMContentLoaded', function() {
             createCpuUsageChart(data, 'realtime');
         }
     });
-    
+    //　カレンダーの表示非表示設定
     const modeSelect = document.getElementById('modeSelect');
     if (modeSelect) {
         modeSelect.addEventListener('change', function() {
             const selectedMode = this.value;
             const customRangeInputs = document.getElementById('customRangeInputs');
             if (selectedMode === "custom")  {
-                customRangeInputs.style.display = 'block'; // カスタムレンジ入力を表示
+                customRangeInputs.style.display = 'block'; // カレンダーを表示
             } else {
-                customRangeInputs.style.display = 'none'; // カスタムレンジ入力を非表示
+                customRangeInputs.style.display = 'none'; // カレンダーを非表示
                 modeChange(selectedMode);
             }
         });
     }
 });
 
-// カスタムレンジの入力フィールドを取得
+// 指定した時間の入力フィールドデータを取得
 async function fetchCustomRange() {
     try {
         const startTimeInput = document.getElementById('startTime'); //入力値の取得
@@ -72,15 +72,47 @@ async function fetchCustomRange() {
             alert('開始時刻は終了時刻よりも早くなければなりません！');
             return;
         }
-
-        const startTimestamp = Math.floor(startDate.getTime() / 1000); //ミリ秒→ミリに変換  
+        
+        const startTimestamp = Math.floor(startDate.getTime() / 1000); //ミリ秒→ミリに変換
         const endTimestamp = Math.floor(endDate.getTime() / 1000);
 
         console.log("開始時刻:", startTimestamp, "終了時刻:", endTimestamp);
+
+        const mockData = generateMockData(startTimestamp, endTimestamp); // Faker.jsを使用してモックデータを生成
+        createCpuUsageChart(mockData, 'custom'); //グラフ生成   
+
     } catch (error) {
         console.error('指定時間エラー：', error);
         alert('指定時間を取得できませんでした')
     }
+}
+
+// Faker.jsを使用してモックデータを生成
+// 30分間隔でCPU使用率データを生成
+// CPUごとに25%をベースに、-15%から+15%のランダムな変動を加える
+// 生成されたデータは、各CPUの使用率を表すオブジェクトの配列として返される
+function generateMockData(startTimestamp, endTimestamp) {
+    const cpuData = {
+        cpu0: [],
+        cpu1: [],
+        cpu2: [],
+        cpu3: []
+    };
+
+    const interval = 30 * 60; //30分間隔でデータを生成
+    for (let timestamp = startTimestamp; timestamp <= endTimestamp; timestamp += interval) {
+        Object.keys(cpuData).forEach((cpuName, index) => {
+            const valueBase = 25 + (index * 5); // CPUごとのベース値を設定
+            const variation = faker.datatype.number({ min: -15, max: 15}); // ランダムな変動値を生成
+            const utilization = Math.max(0, Math.min(25, valueBase + variation));
+            cpuData[cpuName].push({
+                x: new Date(timestamp * 1000), // ミリ秒に変換
+                y: utilization
+            });
+        });
+    }
+    console.log("生成されたデータ：", cpuData);
+    return cpuData;   
 }
 
 //生データ専用の処理関数
@@ -111,7 +143,7 @@ async function loadSummaryData(mode) {
         } else if (mode === "1day") {
             interval_type = 3;
         } else if (mode === "specifictime") {
-            interval_type = 2; // カスタムレンジは1時間間隔で取得
+            interval_type = 1; // カスタムレンジは30分間隔で取得
         }
 
         console.log("=== loadSummaryData デバッグ ===");
@@ -139,7 +171,7 @@ function calculateTimeRange(mode) {
     const dataEndTime = 1750933581;
     if (mode === "30minutes") {
         return {
-            start: dataStartTime - (30 * 60), // 30分前からのデータを取得
+            start: dataStartTime,
             end: dataEndTime
         };
     } else if (mode === "1hour") {
