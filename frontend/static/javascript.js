@@ -1,4 +1,4 @@
-//APIからデータを取得
+//APIからデータを取得（生データ）
 async function loadMetricsData(mode = "realtime") {
     try {
         const response = await fetch(`/api/metrics?mode=${mode}`);
@@ -10,7 +10,7 @@ async function loadMetricsData(mode = "realtime") {
         return null;            
     }
 }
-// 時間間隔モード変更時の処理＆そのグラフの生成
+// APIからデータを取得(集計データ)、データフロー制御のみ、loadSummaryData()を呼び出す
 async function modeChange(mode) {
     try {        
         if (mode === "realtime") {
@@ -26,7 +26,7 @@ async function modeChange(mode) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 初期データ読み込み
+    // 初期データ(HTML)読み込み完了ですぐにグラフを生成、デフォルトは'realtime'
     loadMetricsData().then(data => {
         if (data) {
             createCpuUsageChart(data, 'realtime');
@@ -101,12 +101,12 @@ function calculateTimeRange(mode) {
         };
     } else if (mode === "1hour") {
         return {
-            start: dataStartTime - (12 * 3600),
+            start: dataStartTime - (3 * 3600), // 3時間前からのデータを取得
             end: dataEndTime 
         };
     } else if (mode === "1day") {
         return {
-            start: dataStartTime - (7 * 24 * 3600),
+            start: dataStartTime - (7 * 24 * 3600), // 7日前からのデータを取得
             end: dataEndTime  
         };
     }
@@ -273,8 +273,8 @@ function getTimeSettings(mode) {
             return {
                 unit: 'hour',
                 displayFormat: 'HH:mm',
-                stepSize: 2,       // 1時間ごとに目盛り
-                maxTicksLimit: 6,  // 3時間で4個の目盛り（0,1,2,3時間）
+                stepSize: 1,       // 1時間ごとに目盛り
+                maxTicksLimit: 6, 
                 title: '時刻(1時間間隔)'
             };
         default:
