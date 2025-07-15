@@ -16,6 +16,9 @@ async function modeChange(mode) {
         if (mode === "realtime") {
             const data = await loadMetricsData(mode);
             createCpuUsageChart(data, mode);
+        } else if (mode === "custom") {
+            console.log('時間指定モードが選択されました');
+            return;
         } else  {
             const data = await loadSummaryData(mode);
             createCpuUsageChart(data, mode);
@@ -37,10 +40,48 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modeSelect) {
         modeSelect.addEventListener('change', function() {
             const selectedMode = this.value;
-            modeChange(selectedMode);
+            const customRangeInputs = document.getElementById('customRangeInputs');
+            if (selectedMode === "custom")  {
+                customRangeInputs.style.display = 'block'; // カスタムレンジ入力を表示
+            } else {
+                customRangeInputs.style.display = 'none'; // カスタムレンジ入力を非表示
+                modeChange(selectedMode);
+            }
         });
     }
 });
+
+// カスタムレンジの入力フィールドを取得
+async function fetchCustomRange() {
+    try {
+        const startTimeInput = document.getElementById('startTime'); //入力値の取得
+        const endTimeInput = document.getElementById('endTime');
+
+        const startTimeValue = startTimeInput.value;
+        const endTimeValue = endTimeInput.value;
+
+        if (!startTimeValue || !endTimeValue) {
+            alert('開始時刻と終了時刻を入力してください！');
+            return;
+        }
+
+        const startDate = new Date(startTimeValue); // 日付オブジェクトに変換
+        const endDate = new Date(endTimeValue);
+
+        if (startDate >= endDate) {
+            alert('開始時刻は終了時刻よりも早くなければなりません！');
+            return;
+        }
+
+        const startTimestamp = Math.floor(startDate.getTime() / 1000); //ミリ秒→ミリに変換  
+        const endTimestamp = Math.floor(endDate.getTime() / 1000);
+
+        console.log("開始時刻:", startTimestamp, "終了時刻:", endTimestamp);
+    } catch (error) {
+        console.error('指定時間エラー：', error);
+        alert('指定時間を取得できませんでした')
+    }
+}
 
 //生データ専用の処理関数
 function processCpuData(data, mode) {
@@ -69,6 +110,8 @@ async function loadSummaryData(mode) {
             interval_type = 2;
         } else if (mode === "1day") {
             interval_type = 3;
+        } else if (mode === "specifictime") {
+            interval_type = 2; // カスタムレンジは1時間間隔で取得
         }
 
         console.log("=== loadSummaryData デバッグ ===");
@@ -96,7 +139,7 @@ function calculateTimeRange(mode) {
     const dataEndTime = 1750933581;
     if (mode === "30minutes") {
         return {
-            start: dataStartTime,
+            start: dataStartTime - (30 * 60), // 30分前からのデータを取得
             end: dataEndTime
         };
     } else if (mode === "1hour") {
@@ -109,11 +152,12 @@ function calculateTimeRange(mode) {
             start: dataStartTime - (7 * 24 * 3600), // 7日前からのデータを取得
             end: dataEndTime  
         };
+    } else if (mode === "custom") {
+        return {
+            start: dataStartTime - (30 * 60),
+            end: dataEndTime
+        }
     }
-    return {
-        start: dataStartTime,
-        end:  dataEndTime
-    };
 }
 
 // CPU使用率グラフ(全体)作成 - modeパラメータを追加
