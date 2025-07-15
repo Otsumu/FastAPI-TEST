@@ -1,5 +1,10 @@
 import sqlite3
 
+"""データベース接続、テーブル設計
+- CPUの使用率データを保存するための生データ、集計データの各テーブルを作成
+- データベースのパスはデフォルトで "../data/metrics.db"
+"""
+
 DATABASE_PATH = "../data/metrics.db"
 CPU_NUMBERS = {i: f'cpu{i}' for i in range(16)}
 
