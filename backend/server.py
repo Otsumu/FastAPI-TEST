@@ -6,15 +6,16 @@ from typing import Optional
 
 app = FastAPI()
 
-# フロントエンドの静的ファイルを使用するためにFastAPIのStaticFilesを設定
+#フロントエンドの静的ファイルを使用するためにFastAPIのStaticFilesを設定
 app.mount("/frontend/static", StaticFiles(directory="../frontend/static"), name="static")
 
+#既存インスタンスの作成
 db = InsertMetrics()
 summary_db = CreateSummary()
 
+"""生データの取得"""
 @app.get("/api/metrics")
 def get_metrics(mode: str ="realtime"):
-    """生データの取得"""
     metrics = db.get_metrics(mode)
     return metrics
 
@@ -32,20 +33,19 @@ def post_metrics(json_data: dict):
  #cpu_id: int = None = Union[int, None]と同じ意味
  #cpu_idが整数 or Noneであることを示すためのFastAPIの型ヒント、
  #cpu_idの指定がない場合、Noneをデフォルト値として使用、全てのCPUの集計データが返される(interval_typeも同様)
+"""集計加工ダミーデータの取得"""
 @app.get("/api/summary")
-def get_summary_data(start_timestamp: int, end_timestamp: int, 
-                     cpu_id: Optional[int] = None, interval_type: Optional[int] = None):
-    """集計加工ダミーデータの取得"""
+def get_summary_data(start_timestamp: int, end_timestamp: int, cpu_id: Optional[int] = None): #interval_type: Optional[int] = None 集計データを使用する場合は必要！
     import random   # ダミーデータ生成用
     dummy_data = []
     points_count = 10
-    interval = (end_timestamp - start_timestamp) // (points_count - 1)
+    interval = (end_timestamp - start_timestamp) // (points_count - 1) # 各mode期間内にpoints_count個のデータポイントを等間隔で配置、例: 6時間(21600秒÷(10-1))=2400秒
     for i in range(points_count):
-        current_time = start_timestamp + (i * interval)
-        for cpu_id in range(4):
-            base = 25 + (cpu_id * 5)
-            variation = random.randint(-15, 15)
-            utilization = base + variation + (i + 1.5)
+        current_time = start_timestamp + (i  * interval) # x軸の計測時間ポイントの算出
+        for cpu_id in range(4): # cpu_id0～3のダミーデータを生成
+            base = 25 + (cpu_id * 5) # CPUごとのベース値を設定
+            variation = random.randint(-15, 15) # ランダムな変動値を生成
+            utilization = base + variation + (i + 1.5) # 時間経過に伴う変動を加える、パラメータ1.5は変動の調整値
 
             dummy_data.append({
                 "bucket_timestamp": current_time,           
