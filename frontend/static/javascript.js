@@ -73,13 +73,13 @@ async function fetchCustomRange() {
             return;
         }
         
-        const startTimestamp = Math.floor(startDate.getTime() / 1000); //ミリ秒→ミリに変換
+        const startTimestamp = Math.floor(startDate.getTime() / 1000); //ミリ秒→ミリに変換、小数点以下切り捨て！
         const endTimestamp = Math.floor(endDate.getTime() / 1000);
 
         console.log("開始時刻:", startTimestamp, "終了時刻:", endTimestamp);
 
         const mockData = generateMockData(startTimestamp, endTimestamp); // Faker.jsを使用してモックデータを生成
-        createCpuUsageChart(mockData, 'custom'); //グラフ生成   
+        createCpuUsageChart(mockData, 'custom');   
 
     } catch (error) {
         console.error('指定時間エラー：', error);
@@ -92,7 +92,7 @@ async function fetchCustomRange() {
 // CPUごとに25%をベースに、-15%から+15%のランダムな変動を加える
 // 生成されたデータは、各CPUの使用率を表すオブジェクトの配列として返される
 function generateMockData(startTimestamp, endTimestamp) {
-    const cpuData = {
+    const mockData = {
         cpu0: [],
         cpu1: [],
         cpu2: [],
@@ -101,18 +101,18 @@ function generateMockData(startTimestamp, endTimestamp) {
 
     const interval = 30 * 60; //30分間隔でデータを生成
     for (let timestamp = startTimestamp; timestamp <= endTimestamp; timestamp += interval) {
-        Object.keys(cpuData).forEach((cpuName, index) => {
+        Object.keys(mockData).forEach((cpuName, index) => {
             const valueBase = 25 + (index * 5); // CPUごとのベース値を設定
             const variation = faker.datatype.number({ min: -15, max: 15}); // ランダムな変動値を生成
-            const utilization = Math.max(0, Math.min(25, valueBase + variation));
-            cpuData[cpuName].push({
+            const utilization = Math.max(0, Math.min(100, valueBase + variation));
+            mockData[cpuName].push({
                 x: new Date(timestamp * 1000), // ミリ秒に変換
                 y: utilization
             });
         });
     }
-    console.log("生成されたデータ：", cpuData);
-    return cpuData;   
+    console.log("生成されたデータ：", mockData);
+    return mockData;   
 }
 
 //生データ専用の処理関数
@@ -143,7 +143,7 @@ async function loadSummaryData(mode) {
         } else if (mode === "1day") {
             interval_type = 3;
         } else if (mode === "specifictime") {
-            interval_type = 1; // カスタムレンジは30分間隔で取得
+            interval_type = 2; // カスタムレンジは1時間間隔で取得
         }
 
         console.log("=== loadSummaryData デバッグ ===");
@@ -186,7 +186,7 @@ function calculateTimeRange(mode) {
         };
     } else if (mode === "custom") {
         return {
-            start: dataStartTime - (30 * 60),
+            start: dataStartTime - (24 * 3600),
             end: dataEndTime
         }
     }
@@ -197,10 +197,20 @@ function createCpuUsageChart(data, mode = 'realtime') {
     //2次元描画モードのグラフを作成
     const context = document.getElementById('cpuLoadChart').getContext('2d');
     //processCpuData()とprocessSummaryData()の呼び出し
-    const {cpuData, suggestedMax} = mode === "realtime"
-        ? processCpuData(data, mode) 
-        : processSummaryData(data , mode); 
-
+    let cpuData, suggestedMax;
+    if (mode === "realtime") {
+        const result = processCpuData(data, mode);
+        cpuData = result.cpuData;
+        suggestedMax = result.suggestedMax;
+    } else if (mode === "custom") {
+        cpuData = data; // generateMockData()の結果をそのまま使用
+        const maxUsage = Math.max(...Object.values(cpuData).flat().map(data => data.y));
+        suggestedMax = Math.ceil(maxUsage / 10) * 10;
+    } else  {
+        const result = processSummaryData(data, mode); 
+        cpuData = result.cpuData;
+        suggestedMax = result.suggestedMax;
+    }
     const timeSettings = getTimeSettings(mode);
     
     // chart.jsのデータを作成
@@ -290,7 +300,6 @@ function createCpuUsageChart(data, mode = 'realtime') {
 //集計処理専用の処理関数
 function processSummaryData(data, mode) {
     try {
-        console.log("集計データの例:", data.slice(0, 3));  // 最初の3件確認
         console.log("avg_utilization の値:", data.map(d => d.avg_utilization));
 
         const cpuData = {};
@@ -353,13 +362,21 @@ function getTimeSettings(mode) {
                 maxTicksLimit: 6, 
                 title: '時刻(1時間間隔)'
             };
-        default:
+        case '1day':
             return {
                 unit: 'day',
                 displayFormat: 'MM-dd',
                 stepSize: 1,
                 maxTicksLimit: 7, // 1週間で7個の目盛り
                 title: '時刻(1日間隔)'
+            };
+        default:
+            return {
+                unit: 'hour',
+                displayFormat: 'MM-dd HH:mm',
+                stepSize: 1,
+                maxTicksLimit: 6, // 1週間で7個の目盛り
+                title: '時刻'
             };
     }
 }
