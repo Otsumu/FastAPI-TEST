@@ -118,18 +118,12 @@ async function loadSummaryData(mode) {
         } else if (mode === "specifictime") {
             interval_type = 2; // カスタムレンジは1時間間隔で取得
         }
-
-        console.log("=== loadSummaryData デバッグ ===");
-        console.log("mode:", mode, "interval_type:", interval_type);
         
         const url = `/api/summary?start_timestamp=${timeRange.start}&end_timestamp=${timeRange.end}&interval_type=${interval_type}`;
         console.log("リクエストURL:", url);
 
         const response = await fetch(`/api/summary?start_timestamp=${timeRange.start}&end_timestamp=${timeRange.end}&interval_type=${interval_type}`);
         const data = await response.json()
-
-        console.log("取得データ件数:", data.length);
-        console.log("データ例:", data.slice(0, 2));
 
         return data;
     }
@@ -176,17 +170,15 @@ function createCpuUsageChart(data, mode = 'realtime') {
         const result = processCpuData(data, mode);
         cpuData = result.cpuData;
         suggestedMax = result.suggestedMax;
-    } else if (mode === "custom") {
-        cpuData = data; // generateMockData()の結果をそのまま使用
-        const maxUsage = Math.max(...Object.values(cpuData).flat().map(data => data.y));
-        suggestedMax = Math.ceil(maxUsage / 10) * 10;
     } else  {
         const result = processSummaryData(data, mode); 
         cpuData = result.cpuData;
         suggestedMax = result.suggestedMax;
     }
+
     const timeSettings = getTimeSettings(mode);
-    
+    console.log("suggestedMax:", suggestedMax);
+
     // chart.jsのデータを作成
     const datasets = Object.keys(cpuData).map((cpuName, index) => {
         const chartData = mode === "realtime" ? cpuData[cpuName].filter((_, index) => index % 3 === 0) : cpuData[cpuName];
