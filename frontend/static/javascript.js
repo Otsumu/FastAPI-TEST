@@ -1,3 +1,6 @@
+let globalCpuData = null; // グローバル変数でCPUデータを保持
+let globalAllCpuData = null; // 全CPUデータを保持
+
 //APIからデータを取得（生データ）
 async function loadMetricsData(mode = "realtime") {
     try {
@@ -29,13 +32,13 @@ async function modeChange(mode) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 初期データ(HTML)読み込み完了ですぐにグラフを生成、デフォルトは'realtime'
+    //初期データ(HTML)読み込み完了ですぐにグラフを生成、デフォルトは'realtime'
     loadMetricsData().then(data => {
         if (data) {
             createCpuUsageChart(data, 'realtime');
         }
     });
-    //　カレンダーの表示非表示設定
+    //カレンダーの表示非表示設定
     const modeSelect = document.getElementById('modeSelect');
     if (modeSelect) {
         modeSelect.addEventListener('change', function() {
@@ -49,7 +52,35 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
+
+    //CPU毎に表示させる
+    const selectCpu = document.getElementById('cpuSelector');
+    if (selectCpu) {
+        selectCpu.addEventListener('change', function() {
+            const selectedCpu = this.value;
+            if (globalCpuData) {
+                const cpuKey = "cpu" + selectedCpu;
+                if (cpuChart) {
+                    cpuChart.data.datasets.forEach((dataset) => {
+                        dataset.hidden = (dataset.label !== cpuKey);
+                    });
+                    cpuChart.update();
+                }    
+            }
+        })
+    }
+})
+
+    //カスタムレンジのボタンイベント
+    const customRangeButton = document.getElementById('customRangeButton');
+    if (customRangeButton) {
+        customRangeButton.addEventListener('click', async function() {
+            const data = await fetchCustomRange();
+            if (data) {
+                createCpuUsageChart(data, 'custom');
+            }
+        });
+    }
 
 // 指定した時間の入力フィールドデータを取得
 async function fetchCustomRange() {
@@ -175,7 +206,6 @@ function createCpuUsageChart(data, mode = 'realtime') {
         cpuData = result.cpuData;
         suggestedMax = result.suggestedMax;
     }
-
     const timeSettings = getTimeSettings(mode);
     console.log("suggestedMax:", suggestedMax);
 
@@ -261,6 +291,11 @@ function createCpuUsageChart(data, mode = 'realtime') {
             }
         }    
     });
+    if (!globalAllCpuData) {
+        globalAllCpuData = cpuData; // 全CPUデータを保存
+    }
+    globalCpuData = globalAllCpuData;
+    console.log("globalCpuDataに保存:", globalCpuData);  
 }
 
 //集計処理専用の処理関数
@@ -349,4 +384,3 @@ function getTimeSettings(mode) {
 
 //グローバル変数でcpuChartを定義、生成
 let cpuChart = null;
-
