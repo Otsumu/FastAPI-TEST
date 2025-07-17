@@ -73,45 +73,19 @@ async function fetchCustomRange() {
             return;
         }
         
-        const startTimestamp = Math.floor(startDate.getTime() / 1000); //ミリ秒→ミリに変換、小数点以下切り捨て！
+        const startTimestamp = Math.floor(startDate.getTime() / 1000); //ミリ秒→秒に変換、小数点以下切り捨て！
         const endTimestamp = Math.floor(endDate.getTime() / 1000);
 
-        console.log("開始時刻:", startTimestamp, "終了時刻:", endTimestamp);
-
-        const mockData = generateMockData(startTimestamp, endTimestamp); // Faker.jsを使用してモックデータを生成
-        createCpuUsageChart(mockData, 'custom');   
+        console.log("開始時刻:", startTimestamp, "終了時刻:", endTimestamp); 
+        const response = await fetch(`/api/summary?start_timestamp=${startTimestamp}&end_timestamp=${endTimestamp}`);
+        const data = await response.json();
+        createCpuUsageChart(data, 'custom');
+        return data;
 
     } catch (error) {
         console.error('指定時間エラー：', error);
         alert('指定時間を取得できませんでした')
     }
-}
-
-// Faker.jsを使用してダミーモックデータを生成する関数
-// 30分間隔でCPU使用率データを生成
-// 生成されたデータは、各CPUの使用率を表すオブジェクトの配列として返される
-function generateMockData(startTimestamp, endTimestamp) {
-    const mockData = {
-        cpu0: [],
-        cpu1: [],
-        cpu2: [],
-        cpu3: []
-    };
-
-    const interval = 30 * 60; //30分間隔でデータを生成
-    for (let timestamp = startTimestamp; timestamp <= endTimestamp; timestamp += interval) {
-        Object.keys(mockData).forEach((cpuName, index) => {
-            const valueBase = 25 + (index * 5); // CPUごとのベース値を設定
-            const variation = faker.datatype.number({ min: -15, max: 15}); // ランダムな変動値を生成
-            const utilization = Math.max(0, Math.min(80, valueBase + variation));
-            mockData[cpuName].push({
-                x: new Date(timestamp * 1000), // ミリ秒に変換
-                y: utilization
-            });
-        });
-    }
-    console.log("生成されたデータ：", mockData);
-    return mockData;   
 }
 
 //生データ専用の処理関数
@@ -131,7 +105,6 @@ function processCpuData(data, mode) {
 }
 
 //集計データを取得する関数
-//customでも将来的には集計データを使う可能性があるので含む
 async function loadSummaryData(mode) {
     try {
         const timeRange = calculateTimeRange(mode);
@@ -184,7 +157,7 @@ function calculateTimeRange(mode) {
             start: dataStartTime - (7 * 24 * 3600), // 7日前からのデータを取得
             end: dataEndTime  
         };
-    } else if (mode === "custom") {
+    } else if (mode === "custom") { //現時点では不要、将来の拡張性を考慮し残しておく
         return {
             start: dataStartTime - (24 * 3600),
             end: dataEndTime
