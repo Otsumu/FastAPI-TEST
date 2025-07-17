@@ -87,9 +87,8 @@ async function fetchCustomRange() {
     }
 }
 
-// Faker.jsを使用してモックデータを生成
+// Faker.jsを使用してダミーモックデータを生成する関数
 // 30分間隔でCPU使用率データを生成
-// CPUごとに25%をベースに、-15%から+15%のランダムな変動を加える
 // 生成されたデータは、各CPUの使用率を表すオブジェクトの配列として返される
 function generateMockData(startTimestamp, endTimestamp) {
     const mockData = {
@@ -104,7 +103,7 @@ function generateMockData(startTimestamp, endTimestamp) {
         Object.keys(mockData).forEach((cpuName, index) => {
             const valueBase = 25 + (index * 5); // CPUごとのベース値を設定
             const variation = faker.datatype.number({ min: -15, max: 15}); // ランダムな変動値を生成
-            const utilization = Math.max(0, Math.min(100, valueBase + variation));
+            const utilization = Math.max(0, Math.min(80, valueBase + variation));
             mockData[cpuName].push({
                 x: new Date(timestamp * 1000), // ミリ秒に変換
                 y: utilization
@@ -132,6 +131,7 @@ function processCpuData(data, mode) {
 }
 
 //集計データを取得する関数
+//customでも将来的には集計データを使う可能性があるので含む
 async function loadSummaryData(mode) {
     try {
         const timeRange = calculateTimeRange(mode);
@@ -192,7 +192,8 @@ function calculateTimeRange(mode) {
     }
 }
 
-// CPU使用率グラフ(全体)作成 - modeパラメータを追加
+//CPU使用率グラフ(全体)作成 
+//各モードのdataを受け取り、各モードでのグラフを生成する
 function createCpuUsageChart(data, mode = 'realtime') {
     //2次元描画モードのグラフを作成
     const context = document.getElementById('cpuLoadChart').getContext('2d');
