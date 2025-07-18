@@ -44,7 +44,7 @@ def get_summary_data(start_timestamp: int, end_timestamp: int, cpu_id: Optional[
         for cpu_id in range(4): # cpu_id0～3のダミーデータを生成
             base = 25 + (cpu_id * 5) # CPUごとのベース値を設定
             variation = random.randint(-15, 15) # ランダムな変動値を生成
-            utilization = base + variation + i # 時間経過に伴う変動を加える
+            utilization = base + variation + (i * 1.5) # 時間経過に伴う変動を加える
             dummy_data.append({
                 "bucket_timestamp": current_time,           
                 "cpu_id": cpu_id,                        
