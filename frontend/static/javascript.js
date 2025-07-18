@@ -350,7 +350,7 @@ function getTimeSettings(mode) {
             return {
                 unit: 'minute',
                 displayFormat: 'HH:mm', 
-                stepSize: 15,
+                stepSize: 15, // 30分ごとに目盛り
                 maxTicksLimit: 10, 
                 title: '時刻(30分間隔)'
             };
