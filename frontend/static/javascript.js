@@ -219,8 +219,8 @@ function createCpuUsageChart(data, mode = 'realtime') {
             backgroundColor: cpuColor(index),
             tension: 0,
             fill: false, 
-            pointRadius: 3,
-            pointHoverRadius: 6
+            pointRadius: 2,
+            pointHoverRadius: 4
         };
     });
 
